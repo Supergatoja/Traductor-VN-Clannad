@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="100" height="100" fill="none" stroke="#2C3E50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Pestaña trasera de la carpeta con forma de orejas de gato -->
+  <path d="M2 17V6a2 2 0 0 1 2-2h1l1.5 2h4.5l1.5-2h1a2 2 0 0 1 2 2v2" />
+  
+  <!-- Papel/Archivo saliendo de la carpeta -->
+  <path d="M6 10V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7" stroke-dasharray="1 1" stroke-width="1.5" />
+  
+  <!-- Tapa frontal de la carpeta abierta/inclinada hacia adelante -->
+  <path d="M2 10h16.5a1.5 1.5 0 0 1 1.4 2.1l-2.2 6A1.5 1.5 0 0 1 16.3 19H2V10z" fill="#F8F9FA" />
+  
+  <!-- Detalle de huella felpa en la tapa frontal -->
+  <circle cx="9" cy="14" r="1" fill="#2C3E50" stroke="none" />
+  <circle cx="12" cy="14" r="1" fill="#2C3E50" stroke="none" />
+  <circle cx="7.5" cy="16" r="0.7" fill="#2C3E50" stroke="none" />
+  <circle cx="13.5" cy="16" r="0.7" fill="#2C3E50" stroke="none" />
+</svg>

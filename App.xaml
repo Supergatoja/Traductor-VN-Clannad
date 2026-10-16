@@ -1,0 +1,17 @@
+﻿<Application x:Class="SeenExtractor.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:SeenExtractor"
+             Startup="Application_Startup"
+             Exit="Application_Exit"
+             ThemeMode="Dark">
+    <Application.Resources>
+        <ResourceDictionary>
+            <FontFamily x:Key="Klee_One_SB">pack://application:,,,/Data/Fonts/#Klee One SemiBold</FontFamily>
+            <FontFamily x:Key="Klee_One_Re">pack://application:,,,/Data/Fonts/#Klee One</FontFamily>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/PresentationFramework.Fluent;component/Themes/Fluent.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
