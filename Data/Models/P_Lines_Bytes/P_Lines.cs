@@ -9,7 +9,7 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
     public class P_Lines
     {
         private ConfigRegex _Regex;
-        private readonly Dictionary<string, string> GetCharacteres = Get_Characters.GetCharacteres();
+        private Dictionary<string, string> GetCharacteres = Get_Characters.GetCharacteres();
         private Encoding encodingCP932;
         private Encoding encodingANSI;
         internal Dialogos_Conjuntos Conjuntos;
@@ -18,6 +18,7 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
         {
             _Regex = configRegex;
             Conjuntos = dialogos_Conjuntos;
+            GetCharacteres = new Get_Characters().GetCharacteres();
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             encodingCP932 = Encoding.GetEncoding(932);
             encodingANSI = Encoding.GetEncoding(1252);
