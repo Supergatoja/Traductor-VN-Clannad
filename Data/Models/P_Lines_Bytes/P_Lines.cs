@@ -18,6 +18,7 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
         {
             _Regex = configRegex;
             Conjuntos = dialogos_Conjuntos;
+            GetCharacteres = new Get_Characters().GetCharacteres();
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             encodingCP932 = Encoding.GetEncoding(932);
             encodingANSI = Encoding.GetEncoding(1252);
