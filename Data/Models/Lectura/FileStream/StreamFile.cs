@@ -1,296 +1,14 @@
 ﻿using System.ComponentModel;
 using System.IO;
 using System.Text;
+using System.Windows.Data;
 
 namespace SeenExtractor.Data.Models.Lectura.ReadFileStream
 {
     public class StreamFile
     {
-        public bool ReadLineCusPrecaded(StreamReader file, out string line, out string endline)
-        {
-            if (file.EndOfStream)
-            {
-                line = null;
-                endline = null;
-                return false;
-            }
-
-            int code;
-            StringBuilder stringBuilder = new();
-            bool select = false;
-
-            while ((code = file.Read()) != -1)
-            {
-                char c = (char)code;
-
-                if (c == '@' || c == '{')
-                {
-                    if (((char)file.Peek()) == '\n')
-                    {
-                        stringBuilder.Append(c);
-                        stringBuilder.Append('\n');
-                        file.Read();
-                        select = c == '{' ? true : false;
-                    }
-                    else
-                    {
-                        if (((char)file.Peek()) == '\r')
-                        {
-                            stringBuilder.Append(c);
-                            stringBuilder.Append('\r');
-                            file.Read();
-                            select = c == '{' ? true : false;
-                        }
-                        else stringBuilder.Append(c);
-                    }
-
-                }
-                else
-                {
-                    if (c == '\n')
-                    {
-                        switch (select)
-                        {
-                            case true:
-
-                                break;
-                            case false:
-
-                                endline = c.ToString();
-                                line = stringBuilder.ToString();
-                                return true;
-
-                        }
-                    }
-                    else if (c == '\r')
-                    {
-                        if (((char)file.Peek()) == '\n')
-                        {
-                            endline = c.ToString() + '\n';
-                            line = stringBuilder.ToString();
-                            file.Read();
-                            return true;
-                        }
-                        else
-                        {
-                            switch (select)
-                            {
-                                case true:
-
-                                    break;
-                                case false:
-
-                                    endline = c.ToString();
-                                    line = stringBuilder.ToString();
-                                    return true;
-                            }
-                        }
-
-                    }
-
-                    if (select)
-                    {
-                        select = c == '}' ? false : true;
-                    }
-
-                    stringBuilder.Append(c);
-                }
-
-            }
-
-            line = stringBuilder.ToString();
-            endline = null;
-            return true;
-
-        }
-
-        public bool ReadLineCusCP932(FileStream file, out string line, out string endline)
-        {
-
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            Encoding encoderCP932 = Encoding.GetEncoding(932);
-
-            if (file.Position >= file.Length)
-            {
-                line = null;
-                endline = null;
-                return false;
-            }
-
-            int code, caracterDespuesdeArroba = 0;
-            char c;
-            string endLine = string.Empty;
-            bool eleccion = false, arroba = false;
-
-            StringBuilder builder = new();
-
-            while ((code = file.ReadByte()) != -1)
-            {
-                //c = (char)code;
-                var codeB = (byte)code;
-
-                if (IsByteEncabezado(codeB))
-                {
-                    byte segundoB;
-                    if ((segundoB = (byte)file.ReadByte()) != -1)
-                    {
-                        if (IsByteSegundo(segundoB))
-                        {
-                            c = encoderCP932.GetChars(new byte[] { codeB, segundoB })[0];
-                        }
-                        else { file.Position--; c = (char)(0xF000 + codeB); }
-                    }
-                    else c = (char)(0xF000 + codeB);
-                }
-                else
-                {
-                    if (codeB < 0x80)
-                    {
-                        c = (char)codeB;
-                    }
-                    else c = (char)(0xF000 + codeB);
-                }
-
-                //Forma Clasica
-
-                if (c == '{')
-                {
-                    if (((byte)file.ReadByte()) == 0x0A)
-                    {
-                        builder.Append(c);
-                        builder.Append('\n');
-                        eleccion = true;
-                    }
-                    else { file.Position--; builder.Append(c); }
-                }
-                else
-                    if (c == '}' && eleccion == true)
-                    { eleccion = false; builder.Append(c); }
-                    else if (c == '@')
-                    { builder.Append(c); arroba = true; }
-                    else if (c == '\n' && eleccion == true)
-                        builder.Append(c);
-                    else if (c == '\n' && (eleccion == false && arroba == false))
-                    { endline = $"{c}"; line = builder.ToString(); return true; }
-                    else if (c == '\n' && arroba == true && caracterDespuesdeArroba == 1)
-                    { builder.Append(c); arroba = false; caracterDespuesdeArroba = 0; }
-                    else if (c == '\n' && arroba == true && caracterDespuesdeArroba < 1)
-                    { builder.Append(c); arroba = false; }
-                    else if (arroba == true && caracterDespuesdeArroba < 1)
-                    { builder.Append(c); caracterDespuesdeArroba++; }
-                    else if (arroba == true && caracterDespuesdeArroba > 0)
-                    { builder.Append(c); caracterDespuesdeArroba = 0; arroba = false; }
-                    else builder.Append(c);
-
-
-            }
-
-
-
-
-
-            line = builder.ToString();
-            endline = null;
-            return true;
-
-        }
-
-
-        public bool ReadLineCusCP932(Stream file, out string line, out string endline)
-        {
-
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            Encoding encoderCP932 = Encoding.GetEncoding(932);
-
-            if (file.Position >= file.Length)
-            {
-                line = null;
-                endline = null;
-                return false;
-            }
-
-            int code, caracterDespuesdeArroba = 0;
-            char c;
-            string endLine = string.Empty;
-            bool eleccion = false, arroba = false;
-
-            StringBuilder builder = new();
-
-            while ((code = file.ReadByte()) != -1)
-            {
-                //c = (char)code;
-                var codeB = (byte)code;
-
-                if (IsByteEncabezado(codeB))
-                {
-                    byte segundoB;
-                    if ((segundoB = (byte)file.ReadByte()) != -1)
-                    {
-                        if (IsByteSegundo(segundoB))
-                        {
-                            c = encoderCP932.GetChars(new byte[] { codeB, segundoB })[0];
-                        }
-                        else { file.Position--; c = (char)(0xF000 + codeB); }
-                    }
-                    else c = (char)(0xF000 + codeB);
-                }
-                else
-                {
-                    if (codeB < 0x80)
-                    {
-                        c = (char)codeB;
-                    }
-                    else c = (char)(0xF000 + codeB);
-                }
-
-                //Forma Clasica
-
-                if (c == '{')
-                {
-                    if (((byte)file.ReadByte()) == 0x0A)
-                    {
-                        builder.Append(c);
-                        builder.Append('\n');
-                        eleccion = true;
-                    }
-                    else { file.Position--; builder.Append(c); }
-                }
-                else
-                    if (c == '}' && eleccion == true)
-                    { eleccion = false; builder.Append(c); }
-                    else if (c == '@')
-                    { builder.Append(c); arroba = true; }
-                    else if (c == '\n' && eleccion == true)
-                        builder.Append(c);
-                    else if (c == '\n' && (eleccion == false && arroba == false))
-                    { endline = $"{c}"; line = builder.ToString(); return true; }
-                    else if (c == '\n' && arroba == true && caracterDespuesdeArroba == 1)
-                    { builder.Append(c); arroba = false; caracterDespuesdeArroba = 0; }
-                    else if (c == '\n' && arroba == true && caracterDespuesdeArroba < 1)
-                    { builder.Append(c); arroba = false; }
-                    else if (arroba == true && caracterDespuesdeArroba < 1)
-                    { builder.Append(c); caracterDespuesdeArroba++; }
-                    else if (arroba == true && caracterDespuesdeArroba > 0)
-                    { builder.Append(c); caracterDespuesdeArroba = 0; arroba = false; }
-                    else builder.Append(c);
-
-
-            }
-
-
-
-
-
-            line = builder.ToString();
-            endline = null;
-            return true;
-
-        }
-
-
         public bool ReadTrueArchiveBytes(Stream file, out byte[] bytes, out string Text, out bool Content, out string Type, out int lenght)
         {
-
             if (file.Position >= file.Length)
             {
                 bytes = null;
@@ -312,7 +30,6 @@ namespace SeenExtractor.Data.Models.Lectura.ReadFileStream
             while ((ReadInt = file.ReadByte()) != -1)
             {
                 ReadByte = (byte)ReadInt;
-
                 //DIALOGO CON PERSONAJE
                 if (ReadByte == 0x81)
                 {
@@ -725,7 +442,7 @@ namespace SeenExtractor.Data.Models.Lectura.ReadFileStream
                                     lenght = 0;
                                     return true;
                                 }
-                                
+
                             }
                         }
                         else
@@ -896,6 +613,7 @@ namespace SeenExtractor.Data.Models.Lectura.ReadFileStream
                                                 }
                                                 else
                                                 {
+
                                                     if (currentByte != 0x22 && FinComilla2)
                                                     {
                                                         stream.WriteByte(currentByte);
@@ -904,8 +622,32 @@ namespace SeenExtractor.Data.Models.Lectura.ReadFileStream
                                                     {
                                                         if (currentByte == 0x22 && FinComilla2)
                                                         {
-                                                            FinComilla2 = false;
-                                                            stream.WriteByte(currentByte);
+
+                                                            byte tmpCheck, tmpCheck2;
+                                                            byte[] tempByteLeader;
+                                                            tmpCheck = (byte)file.ReadByte();
+                                                            tmpCheck2 = (byte)file.ReadByte();
+                                                            if (tmpCheck < (byte)0x20)
+                                                            {
+                                                                if (tmpCheck2 == (byte)0x22)
+                                                                {
+                                                                    tempByteLeader = new[] { currentByte, tmpCheck, tmpCheck2 };
+                                                                    FinComilla2 = false;
+                                                                    stream.Write(tempByteLeader, 0, tempByteLeader.Length);
+                                                                }
+                                                                else
+                                                                {
+                                                                    file.Position--;
+                                                                    tempByteLeader = new[] { currentByte, tmpCheck };
+                                                                    stream.Write(tempByteLeader, 0, tempByteLeader.Length);
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                FinComilla2 = false;
+                                                                stream.WriteByte(currentByte);
+                                                                file.Position -= 2;
+                                                            }
                                                         }
                                                         else
                                                             streamDialogo.WriteByte(currentByte);
