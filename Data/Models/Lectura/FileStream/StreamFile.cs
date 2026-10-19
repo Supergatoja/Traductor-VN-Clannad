@@ -1,7 +1,5 @@
-﻿using System.ComponentModel;
+﻿using SeenExtractor.Data.Models.Extenciones.ChangeEncoding.Strings;
 using System.IO;
-using System.Text;
-using System.Windows.Data;
 
 namespace SeenExtractor.Data.Models.Lectura.ReadFileStream
 {
@@ -18,10 +16,7 @@ namespace SeenExtractor.Data.Models.Lectura.ReadFileStream
                 lenght = 0;
                 return false;
             }
-
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            Encoding encodingCP932 = Encoding.GetEncoding(932);
-
+            
             byte ReadByte, nextByte, currentByte, nextByteC;
             byte[] Bytes = new byte[1];
             int ReadInt, CountAfterArroba = 0;
@@ -52,7 +47,6 @@ namespace SeenExtractor.Data.Models.Lectura.ReadFileStream
                                             var bytesStream = new byte[] { currentByte, nextByte };
                                             file.Position--;
                                             stream.Write(bytesStream, 0, bytesStream.Length);
-                                            //var textoCP932 = encodingCP932.GetString(stream.ToArray());
                                             Text = string.Empty;
                                             bytes = stream.ToArray();
                                             Content = false;
@@ -97,7 +91,7 @@ namespace SeenExtractor.Data.Models.Lectura.ReadFileStream
                                         {
                                             stream.WriteByte(currentByte);
                                             var ByteArreglo = stream.ToArray();
-                                            var textoCP932 = encodingCP932.GetString(ByteArreglo);
+                                            var textoCP932 = ByteArreglo.ToStringCP932();
                                             Text = textoCP932;
                                             bytes = ByteArreglo;
                                             Content = true;
@@ -202,7 +196,7 @@ namespace SeenExtractor.Data.Models.Lectura.ReadFileStream
                                                 var ByteArreglo = stream.ToArray();
                                                 bytes = ByteArreglo;
                                                 var BytesDialogo = streamDialogo.ToArray();
-                                                Text = encodingCP932.GetString(BytesDialogo);
+                                                Text = BytesDialogo.ToStringCP932();
                                                 Content = true;
                                                 Type = "Monologo o Concatenacion";
                                                 lenght = ByteArreglo.Length;
@@ -330,7 +324,7 @@ namespace SeenExtractor.Data.Models.Lectura.ReadFileStream
                                             var ByteDialogo = streamDialogo.ToArray();
                                             bytes = ByteArreglo;
                                             Content = true;
-                                            Text = encodingCP932.GetString(ByteDialogo);
+                                            Text = ByteDialogo.ToStringCP932();
                                             Type = "Titulo";
                                             lenght = ByteArreglo.Length;
                                             return true;
@@ -408,7 +402,7 @@ namespace SeenExtractor.Data.Models.Lectura.ReadFileStream
                                                 {
                                                     stream.WriteByte(currentByte);
                                                     var ByteArreglo = streamDialogo.ToArray();
-                                                    var textoCP932 = encodingCP932.GetString(ByteArreglo);
+                                                    var textoCP932 = ByteArreglo.ToStringCP932();
                                                     Text = textoCP932;
                                                     bytes = stream.ToArray();
                                                     Content = true;
@@ -475,7 +469,7 @@ namespace SeenExtractor.Data.Models.Lectura.ReadFileStream
                                                     var ByteArregloDialogo = streamDialogo.ToArray();
                                                     bytes = ByteArreglo;
                                                     Content = true;
-                                                    Text = encodingCP932.GetString(ByteArregloDialogo);
+                                                    Text = ByteArregloDialogo.ToStringCP932();
                                                     Type = "Logro";
                                                     lenght = ByteArreglo.Length;
                                                     return true;
@@ -489,7 +483,7 @@ namespace SeenExtractor.Data.Models.Lectura.ReadFileStream
                                                         var ByteArregloDialogo = streamDialogo.ToArray();
                                                         bytes = ByteArreglo;
                                                         Content = true;
-                                                        Text = encodingCP932.GetString(ByteArregloDialogo);
+                                                        Text = ByteArregloDialogo.ToStringCP932();
                                                         Type = "Palabra guia";
                                                         lenght = ByteArreglo.Length;
                                                         return true;
@@ -593,8 +587,8 @@ namespace SeenExtractor.Data.Models.Lectura.ReadFileStream
                                                 stream.WriteByte(currentByte);
                                                 var BytesStream = stream.ToArray();
                                                 var BytesStreamDialogo = streamDialogo.ToArray();
-                                                Text = encodingCP932.GetString(BytesStreamDialogo);
-                                                var pedro = encodingCP932.GetString(BytesStream);
+                                                Text = BytesStreamDialogo.ToStringCP932();
+                                                var pedro = BytesStream.ToStringCP932();
                                                 Content = true;
                                                 lenght = BytesStreamDialogo.Length;
                                                 Type = "Eleccion";
@@ -731,7 +725,7 @@ namespace SeenExtractor.Data.Models.Lectura.ReadFileStream
                                                 stream.WriteByte(nextByte);
                                                 bytes = stream.ToArray();
                                                 var length = streamDialogo.ToArray();
-                                                Text = encodingCP932.GetString(length);
+                                                Text = length.ToStringCP932();
                                                 lenght = length.Length;
                                                 Type = "DIALOGOS CONJUNTOS (PERSONAJE)";
                                                 Content = true;
@@ -747,7 +741,7 @@ namespace SeenExtractor.Data.Models.Lectura.ReadFileStream
                                                     stream.WriteByte(nextByte);
                                                     bytes = stream.ToArray();
                                                     var length = streamDialogo.ToArray();
-                                                    Text = encodingCP932.GetString(length);
+                                                    Text = length.ToStringCP932();
                                                     lenght = length.Length;
                                                     Type = "DIALOGOS CONJUNTOS (DIALOGO)";
                                                     Content = true;
@@ -764,7 +758,7 @@ namespace SeenExtractor.Data.Models.Lectura.ReadFileStream
                                                         stream.WriteByte(nextByte);
                                                         bytes = stream.ToArray();
                                                         var length = streamDialogo.ToArray();
-                                                        Text = encodingCP932.GetString(length);
+                                                        Text = length.ToStringCP932();
                                                         lenght = length.Length;
                                                         Type = "Acción ???";
                                                         Content = true;

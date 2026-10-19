@@ -5,11 +5,6 @@ namespace SeenExtractor.Data.Models.Dialogos.Search
 {
     public class ActionsSearch
     {
-        public ActionsSearch()
-        {
-            
-        }
-
         public SearchDialogModel Search_Dialog(string value, List<LinesSeen> lineasSeens, List<LinesSeen> newLineSeens)
         {
             var searchO = new SearchDialog().Search(value, lineasSeens);

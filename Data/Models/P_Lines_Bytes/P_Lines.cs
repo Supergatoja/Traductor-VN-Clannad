@@ -1,32 +1,22 @@
 ﻿using SeenExtractor.Data.Characters;
+using SeenExtractor.Data.Models.Extenciones.ChangeEncoding.Strings;
 using SeenExtractor.Data.Models.Lectura;
 using SeenExtractor.Data.Models.RegexConfig;
 using System.IO;
-using System.Text;
 
 namespace SeenExtractor.Data.Models.P_Lines_Bytes
 {
     public class P_Lines
     {
-        private ConfigRegex _Regex;
         private Dictionary<string, string> GetCharacteres = Get_Characters.GetCharacteres();
-        private Encoding encodingCP932;
-        private Encoding encodingANSI;
         internal Dialogos_Conjuntos Conjuntos;
 
-        public P_Lines(ConfigRegex configRegex, Dialogos_Conjuntos dialogos_Conjuntos)
-        {
-            _Regex = configRegex;
-            Conjuntos = dialogos_Conjuntos;
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            encodingCP932 = Encoding.GetEncoding(932);
-            encodingANSI = Encoding.GetEncoding(1252);
-        }
+        public P_Lines(Dialogos_Conjuntos dialogos_Conjuntos) => Conjuntos = dialogos_Conjuntos;
+
         public List<LinesSeen> GetLines(int NumLine, string Texto, string tipo, int lenght)
         {
             string? Personaje = null;
-            bool DC_P;
-            var templst = CheckDialogoConjunto(ref NumLine, tipo, out DC_P);
+            var templst = CheckDialogoConjunto(ref NumLine, tipo, out bool DC_P);
             string Dialogo = tipo switch
             {
                 "Personaje" => GetPersonaje(Texto, out lenght, out Personaje),
@@ -40,8 +30,7 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
                 "Información" => GetInformacion(Texto, out lenght, out Personaje),
                 _ => string.Empty
             };
-            //Conjuntos.Character = string.IsNullOrEmpty(Conjuntos.Character) ? null : Conjuntos.Character;
-            //Conjuntos.Dialog = null;
+
             if (DC_P)
                 templst.Add(new LinesSeen()
                 {
@@ -83,7 +72,7 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
                     var lst = new List<LinesSeen>() { new LinesSeen() { Line = NumLine,
                                                                                     Character = "TiTULO ???",
                                                                                     Dialog = Conjuntos.Character,
-                                                                                    Length = encodingCP932.GetBytes(tipo).Length } };
+                                                                                    Length = tipo.LengthBytesCP932() } };
                     NumLine++;
                     data = true;
                     Conjuntos.Clean();
@@ -103,18 +92,18 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
                 var espacios = string.Empty;
 
                 var nuevoDialogo = dialogos[texto];
-                var lenghtO = encodingCP932.GetBytes(texto);
-                var lenghtN = encodingANSI.GetBytes(nuevoDialogo);
-                var nuevoDialogo932 = encodingCP932.GetString(lenghtN);
+                var lenghtO = texto.LengthBytesCP932();
+                var lenghtN = nuevoDialogo.LengthBytesANSII();
+                var nuevoDialogo932 = nuevoDialogo.ConvertToCP932();
                 string dialogos_Espacios;
-                numEspacios = (lenghtN.Length < lenghtO.Length) ? (lenghtO.Length - 1) - (lenghtN.Length - 1) : 0;
+                numEspacios = (lenghtN < lenghtO) ? (lenghtO - 1) - (lenghtN - 1) : 0;
 
                 for (int i = 0; i < numEspacios; i++)
                     espacios += " ";
 
                 dialogos_Espacios = $"\"{nuevoDialogo932}{espacios}\"";
 
-                var tempBytes = encodingCP932.GetBytes(dialogos_Espacios);
+                var tempBytes = dialogos_Espacios.BytesCP932();
                 var countTemp = 0;
                 foreach (var Byte in bytes)
                 {
@@ -143,26 +132,25 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
         {
             if (dialogos.ContainsKey(texto))
             {
-                //var bytesTextoNuevo = encodingANSI.GetBytes(dialogos[texto]);
-                //var bytesTextoNuevoCP932 = encodingCP932.GetString(bytesTextoNuevo);
-                var bytesTextoNuevoCP932 = encodingCP932.GetBytes(encodingCP932.GetString(encodingANSI.GetBytes(dialogos[texto])));
+
                 var bytesR = new byte[] { };
                 int numEspacios = 0;
                 var espacios = string.Empty;
 
                 var nuevoDialogo = dialogos[texto];
-                var lenghtO = encodingCP932.GetBytes(texto);
-                var lenghtN = encodingANSI.GetBytes(nuevoDialogo);
-                var nuevoDialogo932 = encodingCP932.GetString(lenghtN);
+                var lenghtO = texto.LengthBytesCP932();
+                var lenghtN = nuevoDialogo.LengthBytesANSII();
+                var nuevoDialogo932 = nuevoDialogo.ConvertToCP932();
                 string dialogos_Espacios;
-                numEspacios = (lenghtN.Length < lenghtO.Length) ? (lenghtO.Length - 1) - (lenghtN.Length - 1) : 0;
+
+                numEspacios = (lenghtN < lenghtO) ? (lenghtO - 1) - (lenghtN - 1) : 0;
 
                 for (int i = 0; i < numEspacios; i++)
                     espacios += " ";
 
                 dialogos_Espacios = $"\"{nuevoDialogo932}{espacios}\"";
 
-                var tempBytes = encodingCP932.GetBytes(dialogos_Espacios);
+                var tempBytes = dialogos_Espacios.BytesCP932();
 
                 foreach (var Byte in bytes)
                 {
@@ -171,12 +159,12 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
                     else
                         break;
                 }
-                //bytesR = bytesR.Append((byte)0x22).ToArray();
+
                 foreach (var Byte in tempBytes)
                 {
                     bytesR = bytesR.Append(Byte).ToArray();
                 }
-                //bytesR = bytesR.Append((byte)0x22).ToArray();
+
                 return bytesR;
             }
             else
@@ -191,7 +179,7 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
                 1 => Conjuntos.Dialog = Texto,
                 _ => string.Empty
             };
-            //Conjuntos.Character = null;
+
             if (Conjuntos.Dialog == null )
             {
                 Personaje = string.Empty;
@@ -209,10 +197,6 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
             }
         }
 
-
-
-
-
         private byte[] SetMulti(string texto, Dictionary<string, string> dialogos, byte[] bytes)
         {
             string espacios = string.Empty;
@@ -222,18 +206,18 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
             if (dialogos.ContainsKey(texto))
             {
                 var nuevoDialogo = dialogos[texto];
-                var lenghtO = encodingCP932.GetBytes(texto);
-                var lenghtN = encodingANSI.GetBytes(nuevoDialogo);
-                var nuevoDialogo932 = encodingCP932.GetString(lenghtN);
+                var lenghtO = texto.LengthBytesCP932();
+                var lenghtN = nuevoDialogo.LengthBytesANSII();
+                var nuevoDialogo932 = nuevoDialogo.ConvertToCP932();
                 string dialogos_Espacios;
-                numEspacios = (lenghtN.Length < lenghtO.Length) ? (lenghtO.Length - 1) - (lenghtN.Length - 1) : 0;
+                numEspacios = (lenghtN < lenghtO) ? (lenghtO - 1) - (lenghtN - 1) : 0;
 
                 for (int i = 0; i < numEspacios; i++)
                     espacios += " ";
 
                 dialogos_Espacios = $"\"{nuevoDialogo932}{espacios}\"";
 
-                var tempBytes = encodingCP932.GetBytes(dialogos_Espacios);
+                var tempBytes = dialogos_Espacios.BytesCP932();
 
                 resultado = resultado.Append(bytes[0]).ToArray();
 
@@ -250,7 +234,7 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
             }
             else
             {
-                var tempBytes = encodingCP932.GetBytes(texto);
+                var tempBytes = texto.BytesCP932();
 
                 resultado = resultado.Append(bytes[0]).ToArray();
                 resultado = resultado.Append((byte)0x22).ToArray();
@@ -271,14 +255,12 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
             return resultado;
         }
 
-
-
         private string GetPersonaje(string texto, out int lengt, out string personaje)
         {
-            var resultado = _Regex.ExtractSelect().Match(texto);
+            var resultado = ConfigRegex.ExtractSelect().Match(texto);
             var Texto = resultado.Groups[1].Value;
-            var PersonajeText = _Regex.ExtractPersonajeBytes().Match(texto);
-            lengt = (encodingCP932.GetBytes(texto)).Length;
+            var PersonajeText = ConfigRegex.ExtractPersonajeBytes().Match(texto);
+            lengt = texto.LengthBytesCP932();
             personaje = PersonajeText.Groups[0].Value;
             personaje = (GetCharacteres.ContainsKey(personaje)) ? GetCharacteres[personaje] : personaje;
             return Texto;
@@ -286,20 +268,18 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
 
         private byte[] SetPersonaje(string texto, Dictionary<string, string> dialogos)
         {
-            var resultado = _Regex.ExtractSelect().Replace(texto, match =>
+            var resultado = ConfigRegex.ExtractSelect().Replace(texto, match =>
             {
                 string dialogo, espacios = string.Empty;
                 int numEspacios = 0;
                 if (dialogos.ContainsKey(dialogo = match.Groups[1].Value))
                 {
                     var nuevoDialogo = dialogos[dialogo];
-                    var lenghtO = encodingCP932.GetBytes(dialogo);
-                    var lenghtN = encodingANSI.GetBytes(nuevoDialogo);
-                    var lenghtNN = encodingCP932.GetBytes(nuevoDialogo);
-                    var nuevoDialogo932 = encodingCP932.GetString(lenghtN);
+                    var lenghtO = dialogo.LengthBytesCP932();
+                    var lenghtN = nuevoDialogo.LengthBytesANSII();
+                    var nuevoDialogo932 = nuevoDialogo.ConvertToCP932();
                     string dialogos_Espacios;
-                    var xd = encodingCP932.GetString(lenghtNN);
-                    numEspacios = (lenghtN.Length < lenghtO.Length) ? (lenghtO.Length - 1) - (lenghtN.Length - 1) : 0;
+                    numEspacios = (lenghtN < lenghtO) ? (lenghtO - 1) - (lenghtN - 1) : 0;
 
                     for (int i = 0; i < numEspacios; i++)
                         espacios += " ";
@@ -311,27 +291,27 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
                 return match.Value;
             });
 
-            return encodingCP932.GetBytes(resultado);
+            return resultado.BytesCP932();
         }
 
         private string GetMoCo(string texto, out int lengt, out string personaje)
         {
             personaje = "Monologo ó Concatenación";
-            lengt = (encodingCP932.GetBytes(texto)).Length;
+            lengt = texto.LengthBytesCP932();
             return texto;
         }
 
         private string GetAccion(string texto, out int lengt, out string personaje)
         {
             personaje = "Acción ???";
-            lengt = (encodingCP932.GetBytes(texto)).Length;
+            lengt = texto.LengthBytesCP932();
             return texto;
         }
 
         private string GetInformacion(string texto, out int lengt, out string personaje)
         {
             personaje = "Información";
-            lengt = (encodingCP932.GetBytes(texto)).Length;
+            lengt = texto.LengthBytesCP932();
             return texto;
         }
 
@@ -344,19 +324,21 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
 
             if (dialogos.ContainsKey(texto))
             {
+                var bytesR = new byte[] { };
+                
                 var nuevoDialogo = dialogos[texto];
-                var lenghtO = encodingCP932.GetBytes(texto);
-                var lenghtN = encodingANSI.GetBytes(nuevoDialogo);
-                var nuevoDialogo932 = encodingCP932.GetString(lenghtN);
+                var lenghtO = texto.LengthBytesCP932();
+                var lenghtN = nuevoDialogo.LengthBytesANSII();
+                var nuevoDialogo932 = nuevoDialogo.ConvertToCP932();
                 string dialogos_Espacios;
-                numEspacios = (lenghtN.Length < lenghtO.Length) ? (lenghtO.Length - 1) - (lenghtN.Length - 1) : 0;
+                numEspacios = (lenghtN < lenghtO) ? (lenghtO - 1) - (lenghtN - 1) : 0;
 
                 for (int i = 0; i < numEspacios; i++)
                     espacios += " ";
 
                 dialogos_Espacios = $"\"{nuevoDialogo932}{espacios}\"";
 
-                var tempBytes = encodingCP932.GetBytes(dialogos_Espacios);
+                var tempBytes = dialogos_Espacios.BytesCP932();
 
                 for (int i = 0; i < bytes.Length; i++)
                 {
@@ -375,7 +357,7 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
 
         private string GetLogro(string texto, out int lengt, out string personaje)
         {
-            lengt = (encodingCP932.GetBytes(texto)).Length;
+            lengt = texto.LengthBytesCP932();
             personaje = "Logro";
             return texto;
         }
@@ -383,7 +365,7 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
 
         private byte[] SetLogro(string texto, Dictionary<string, string> dialogos, byte[] bytes)
         {
-            var pedro = encodingCP932.GetBytes($"\"{texto}\"");
+            var pedro = $"\"{texto}\"".BytesCP932();
             var Logro = new MemoryStream();
             for (int i = 0; i < 3; i++)
             {
@@ -401,7 +383,7 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
 
         private string GetGuia(string texto, out int lengt, out string personaje)
         {
-            lengt = (encodingCP932.GetBytes(texto)).Length;
+            lengt = texto.LengthBytesCP932();
             personaje = "Palabra Guia";
             return texto;
         }
@@ -414,19 +396,20 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
             byte[] resultado = new byte[] { };
             if (dialogos.ContainsKey(texto))
             {
+                var bytesR = new byte[] { };
                 var nuevoDialogo = dialogos[texto];
-                var lenghtO = encodingCP932.GetBytes(texto);
-                var lenghtN = encodingANSI.GetBytes(nuevoDialogo);
-                var nuevoDialogo932 = encodingCP932.GetString(lenghtN);
+                var lenghtO = texto.LengthBytesCP932();
+                var lenghtN = nuevoDialogo.LengthBytesANSII();
+                var nuevoDialogo932 = nuevoDialogo.ConvertToCP932();
                 string dialogos_Espacios;
-                numEspacios = (lenghtN.Length < lenghtO.Length) ? (lenghtO.Length - 1) - (lenghtN.Length - 1) : 0;
+                numEspacios = (lenghtN < lenghtO) ? (lenghtO - 1) - (lenghtN - 1) : 0;
 
                 for (int i = 0; i < numEspacios; i++)
                     espacios += " ";
 
                 dialogos_Espacios = $"\"{nuevoDialogo932}{espacios}\"";
 
-                var tempBytes = encodingCP932.GetBytes(dialogos_Espacios);
+                var tempBytes = dialogos_Espacios.BytesCP932();
 
                 for (int i = 0; i < 3; i++)
                 {
@@ -444,10 +427,9 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
 
         private string GetTitulo(string texto, out int lengt, out string personaje)
         {
-            lengt = (encodingCP932.GetBytes(texto)).Length;
+            lengt = texto.LengthBytesCP932();
             personaje = "Titulo";
             return texto;
-            //return Texto;
         }
 
 
@@ -458,19 +440,20 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
             byte[] resultado = new byte[] { }, bytes_Titulo = new byte[] { 0x00, 0x28 };
             if (dialogos.ContainsKey(texto))
             {
+                var bytesR = new byte[] { };
                 var nuevoDialogo = dialogos[texto];
-                var lenghtO = encodingCP932.GetBytes(texto);
-                var lenghtN = encodingANSI.GetBytes(nuevoDialogo);
-                var nuevoDialogo932 = encodingCP932.GetString(lenghtN);
+                var lenghtO = texto.LengthBytesCP932();
+                var lenghtN = nuevoDialogo.LengthBytesANSII();
+                var nuevoDialogo932 = nuevoDialogo.ConvertToCP932();
                 string dialogos_Espacios;
-                numEspacios = (lenghtN.Length < lenghtO.Length) ? (lenghtO.Length - 1) - (lenghtN.Length - 1) : 0;
+                numEspacios = (lenghtN < lenghtO) ? (lenghtO - 1) - (lenghtN - 1) : 0;
 
                 for (int i = 0; i < numEspacios; i++)
                     espacios += " ";
 
                 dialogos_Espacios = $"\"{nuevoDialogo932}{espacios}\"";
 
-                var tempBytes = encodingCP932.GetBytes(dialogos_Espacios);
+                var tempBytes = dialogos_Espacios.BytesCP932();
 
                 foreach (var item in bytes_Titulo)
                 {
@@ -489,14 +472,12 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
         public List<LinesSeen> GetEleccion(int NumLine, string texto)
         {
             var lines = new List<LinesSeen>();
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            var encodingCP932 = Encoding.GetEncoding(932);
             var elecciones = texto.Split('∞');
             foreach (var eleccion in elecciones)
             {
                 if (!string.IsNullOrEmpty(eleccion))
                 {
-                    var Bytes = (encodingCP932.GetBytes(eleccion)).Length;
+                    var Bytes = eleccion.LengthBytesCP932();
 
                     lines.Add(new LinesSeen() { Line = NumLine, Character = "Elección", Dialog = eleccion, Length = Bytes });
                     NumLine++;
@@ -521,19 +502,20 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
                     int numEspacios = 0;
                     if (dialogos.ContainsKey(eleccion))
                     {
+                        var bytesR = new byte[] { };
                         var nuevoDialogo = dialogos[eleccion];
-                        var lenghtO = encodingCP932.GetBytes(eleccion);
-                        var lenghtN = encodingANSI.GetBytes(nuevoDialogo);
-                        var nuevoDialogo932 = encodingCP932.GetString(lenghtN);
+                        var lenghtO = eleccion.LengthBytesCP932();
+                        var lenghtN = nuevoDialogo.LengthBytesANSII();
+                        var nuevoDialogo932 = nuevoDialogo.ConvertToCP932();
                         string dialogos_Espacios;
-                        numEspacios = (lenghtN.Length < lenghtO.Length) ? (lenghtO.Length - 1) - (lenghtN.Length - 1) : 0;
+                        numEspacios = (lenghtN < lenghtO) ? (lenghtO - 1) - (lenghtN - 1) : 0;
 
                         for (int i = 0; i < numEspacios; i++)
                             espacios += " ";
 
                         dialogos_Espacios = $"\"{nuevoDialogo932}{espacios}\"";
 
-                        var tempBytes = encodingCP932.GetBytes(dialogos_Espacios);
+                        var tempBytes = dialogos_Espacios.BytesCP932();
                         if (count == 1)
                         {
                             for (int i = 0; i < 4; i++)
@@ -562,7 +544,6 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
                         else
                         {
                             var posn = pos + 0;
-                            //limite = pos + 4;
                             for (int i = posn; i < Data.Length; i++)
                             {
                                 resultado = resultado.Append(Data[i]).ToArray();
@@ -585,7 +566,7 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
             return Texto;
         }
 
-        internal int Bytes_DC_P() => encodingCP932.GetBytes(Conjuntos.Character).Length;
+        internal int Bytes_DC_P() => Conjuntos.Character.LengthBytesCP932();
 
     }
 

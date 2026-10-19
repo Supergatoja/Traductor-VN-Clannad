@@ -20,7 +20,7 @@
         <CommandBinding Command="ApplicationCommands.Save" Executed="Guardar_Mezclar_Click" CanExecute="CommandBinding_CanExecute_1"/>
         <CommandBinding Command="{x:Static local:MainWindow.Lectura_Masiva}" Executed="OpenFolderDialogs_Click" />
         <CommandBinding Command="{x:Static local:MainWindow.Export}" Executed="ExportDialogs_Click" />
-        <CommandBinding Command="{x:Static local:MainWindow.Open_Clean_Trans}" Executed="DialogosNuevosClean_Click" />
+        <!--<CommandBinding Command="{x:Static local:MainWindow.Open_Clean_Trans}" Executed="DialogosNuevosClean_Click" />-->
         <CommandBinding Command="ApplicationCommands.Replace" Executed="Replace_Executed" />
         <CommandBinding Command="{x:Static local:MainWindow.CleanTranslate}" Executed="CleanTranslate_Executed" CanExecute="CleanTranslate_CanExecute" />
     </Window.CommandBindings>

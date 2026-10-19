@@ -48,7 +48,7 @@ namespace SeenExtractor.Data.Models.Lectura.Masiva
 
         public async Task CreateFiles(string path, string namefile, string pathDS)
         {
-            var dialogos = await new ReadFile(new RellenarList(new ConfigRegex(), new StreamFile(), new P_Lines(new ConfigRegex(), new Dialogos_Conjuntos()))).ReadDialog(path);
+            var dialogos = await new ReadFile(new RellenarList(new StreamFile(), new P_Lines(new Dialogos_Conjuntos()))).ReadDialog(path);
             var exportDialogos = new ExportDialogs(new PickFile(new OpenFileDialog(), new SaveFileDialog(), new OpenFolderDialog()))
             {
                 LinesSeens = dialogos

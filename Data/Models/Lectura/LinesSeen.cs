@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SeenExtractor.Data.Models.Extenciones.ChangeEncoding.Strings;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -40,11 +39,8 @@ namespace SeenExtractor.Data.Models.Lectura
             }
             else
             {
-                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-                var cp932 = Encoding.GetEncoding(932);
-                var bytes = cp932.GetBytes(_Dialog);
-                var texto = cp932.GetString(bytes);
-                if (bytes.Length > Length & Length > 0)
+                var bytes = _Dialog.LengthBytesCP932();
+                if (bytes > Length & Length > 0)
                 {
                     Excede = true;
                 }

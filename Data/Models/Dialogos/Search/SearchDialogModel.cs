@@ -2,7 +2,7 @@
 {
     public class SearchDialogModel
     {
-        public List<SearchDialogResult> Searches { get; set; }
+        public List<SearchDialogResult>? Searches { get; set; }
         private int currentItem = 0;
         public int CurrentItem
         {

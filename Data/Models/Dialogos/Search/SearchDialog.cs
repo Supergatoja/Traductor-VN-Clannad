@@ -4,10 +4,9 @@ namespace SeenExtractor.Data.Models.Dialogos.Search
 {
     internal class SearchDialog
     {
-        public async Task<List<SearchDialogResult>> Search(string value, List<Lectura.LinesSeen> newLineSeens)
+        public async Task<List<SearchDialogResult>> Search(string value, List<LinesSeen> newLineSeens)
         {
             List<SearchDialogResult> model = new();
-            LinesSeen line;
             if (newLineSeens != null)
             {
                 foreach (var lines in newLineSeens)
@@ -21,10 +20,9 @@ namespace SeenExtractor.Data.Models.Dialogos.Search
 
             return model;
         }
-        public async Task<List<SearchDialogResult>> Search_Character(string value, List<Lectura.LinesSeen> newLineSeens)
+        public async Task<List<SearchDialogResult>> Search_Character(string value, List<LinesSeen> newLineSeens)
         {
             List<SearchDialogResult> model = new();
-            LinesSeen line;
             if (newLineSeens != null)
             {
                 foreach (var lines in newLineSeens)

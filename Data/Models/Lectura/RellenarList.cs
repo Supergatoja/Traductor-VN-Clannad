@@ -1,24 +1,19 @@
-﻿using SeenExtractor.Data.Characters;
+﻿using SeenExtractor.Data.Models.Extenciones.ChangeEncoding.Strings;
 using SeenExtractor.Data.Models.Lectura.ReadFileStream;
 using SeenExtractor.Data.Models.P_Lines_Bytes;
-using SeenExtractor.Data.Models.RegexConfig;
 using SeenExtractor.Data.Models.Sustitución;
 using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace SeenExtractor.Data.Models.Lectura
 {
     public class RellenarList
     {
-        private ConfigRegex _Regex;
         private StreamFile _FileRead;
         private P_Lines _P_Lines;
 
-        public RellenarList(ConfigRegex configRegex, StreamFile streamFile, P_Lines p_Lines)
+        public RellenarList(StreamFile streamFile, P_Lines p_Lines)
         {
-            _Regex = configRegex;
             _FileRead = streamFile;
             _P_Lines = p_Lines;
         }
@@ -26,21 +21,15 @@ namespace SeenExtractor.Data.Models.Lectura
         public List<LinesSeen> UseRegexComillasCP932ToList(Stream streamReader)
         {
             var linesSeen = new List<LinesSeen>();
-            string Texto, Tipo;
-            bool Datos;
-            byte[] bytes;
-            int ByteLength;
             int NumLine = 1;
 
             try
             {
 
-                while (_FileRead.ReadTrueArchiveBytes(streamReader, out bytes, out Texto, out Datos, out Tipo, out ByteLength))
+                while (_FileRead.ReadTrueArchiveBytes(streamReader, out byte[] bytes, out string Texto, out bool Datos, out string Tipo, out int ByteLength))
                 {
                     if (Datos)
                     {
-                        bool eleccion = false;
-                        bool DC_P = false;
                         var line = Tipo switch
                         {
                             "Personaje" => _P_Lines.GetLines(NumLine, Texto, Tipo, ByteLength),
@@ -53,7 +42,7 @@ namespace SeenExtractor.Data.Models.Lectura
                             "DIALOGOS CONJUNTOS (DIALOGO)" => _P_Lines.GetLines(NumLine, Texto, Tipo, ByteLength),
                             "Acción ???" => _P_Lines.GetLines(NumLine, Texto, Tipo, ByteLength),
                             "Información" => _P_Lines.GetLines(NumLine, Texto, Tipo, ByteLength),
-                            _ => null
+                            _ => []
                         };
                         if (!string.IsNullOrEmpty(line[0].Character))
                         {
@@ -90,21 +79,16 @@ namespace SeenExtractor.Data.Models.Lectura
 
         public async Task UseRegexComillasCP932ToMerch(Stream streamReader, Stream streamWriter, Dictionary<string, string> dialogos)
         {
-            string Texto, Tipo;
-            bool Datos;
-            byte[] bytes;
-            int ByteLength;
             int NumLine = 1;
 
-            new Sustituir().SustituirCaracteres_Klee(dialogos);
+            dialogos.SustituirCaracteres_Klee();
 
             try
             {
-                while (_FileRead.ReadTrueArchiveBytes(streamReader, out bytes, out Texto, out Datos, out Tipo, out ByteLength))
+                while (_FileRead.ReadTrueArchiveBytes(streamReader, out byte[] bytes, out string Texto, out bool Datos, out string Tipo, out int ByteLength))
                 {
                     if (Datos)
                     {
-                        bool eleccion = false;
                         byte[] line = Tipo switch
                         {
                             "Personaje" => _P_Lines.SetLines(NumLine, Texto, Tipo, bytes, dialogos),
@@ -117,7 +101,7 @@ namespace SeenExtractor.Data.Models.Lectura
                             "DIALOGOS CONJUNTOS (DIALOGO)" => _P_Lines.SetLines(NumLine, Texto, Tipo, bytes, dialogos),
                             "Acción ???" => _P_Lines.SetLines(NumLine, Texto, Tipo, bytes, dialogos),
                             "Información" => _P_Lines.SetLines(NumLine, Texto, Tipo, bytes, dialogos),
-                            _ => new byte[] { }
+                            _ => []
                         };
                         streamWriter.Write(line, 0, line.Length);
                     }
@@ -137,8 +121,6 @@ namespace SeenExtractor.Data.Models.Lectura
 
         public byte[] GetBytes(string value)
         {
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            Encoding encoderCP932 = Encoding.GetEncoding(932);
             using (MemoryStream stream = new MemoryStream())
             {
                 int i = 0;
@@ -151,7 +133,7 @@ namespace SeenExtractor.Data.Models.Lectura
                     }
                     else
                     {
-                        var Cbyte = encoderCP932.GetBytes(new char[] { c });
+                        var Cbyte = new char[] { c }.BytesCP932();
                         stream.Write(Cbyte, 0, Cbyte.Length);
                     }
                     i++;
@@ -163,18 +145,15 @@ namespace SeenExtractor.Data.Models.Lectura
 
         public string GetString(string dialog, string oriDialog, out string lenght)
         {
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            Encoding encoderANSI = Encoding.GetEncoding(1252);
-            Encoding encoderCP932 = Encoding.GetEncoding(932);
-            var dialogCP932 = encoderCP932.GetString(encoderANSI.GetBytes(dialog));
-            var tamañoOriginal = encoderCP932.GetBytes(oriDialog);
-            var tamañoDialog = encoderCP932.GetBytes(dialogCP932);
-            string espaciosN = string.Empty;
+            var dialogCP932 = dialog.ConvertToCP932();
+            var tamañoOriginal = oriDialog.LengthBytesCP932();
+            var tamañoDialog = dialogCP932.LengthBytesCP932();
+            var espaciosN = string.Empty;
 
 
-            if (tamañoDialog.Length < tamañoOriginal.Length)
+            if (tamañoDialog < tamañoOriginal)
             {
-                int numeroEspacios = (tamañoOriginal.Length - 1) - (tamañoDialog.Length - 1);
+                int numeroEspacios = (tamañoOriginal - 1) - (tamañoDialog - 1);
                 for (int i = 0; i < numeroEspacios; i++)
                 {
                     espaciosN += " ";

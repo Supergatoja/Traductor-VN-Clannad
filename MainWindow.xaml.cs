@@ -1,10 +1,8 @@
 ﻿using SeenExtractor.Data.Models.Dialogos.Search;
+using SeenExtractor.Data.Models.Extenciones.ChangeEncoding.Strings;
 using SeenExtractor.Data.Models.Files;
 using SeenExtractor.Data.Models.Lectura;
-using SeenExtractor.Data.Models.RegexConfig;
-using SeenExtractor.Data.Models.Sustitución;
 using SeenExtractor.Data.Views.Search;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,9 +11,6 @@ using System.Windows.Media;
 
 namespace SeenExtractor
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private ActionFiles _ActionFiles;
@@ -41,10 +36,10 @@ namespace SeenExtractor
 
         }
 
+        //Boton Convertir a CP932 pero lo uso para sustitur.
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             _NewLinesSeensRespaldo = _NewLinesSeens;
-            ConfigRegex regex = new();
             Regex suspiro = new(@"\*Suspiro\*", RegexOptions.Compiled);
             foreach (var item in _NewLinesSeens)
             {
@@ -62,35 +57,6 @@ namespace SeenExtractor
             }
 
 
-            /*if (await new ConvertFile().PickFile())
-            {
-                await Task.Run(async () =>
-                {
-                    await Dispatcher.BeginInvoke(() =>
-                    {
-                        MSJStatusPopUp.Text = "Conversion Satisfactoria";
-                        StatusPopUp.IsOpen = true;
-                    });
-                    Task.Delay(1000);
-                    Dispatcher.BeginInvoke(() => StatusPopUp.IsOpen = false);
-                });
-
-
-            }
-            else
-            {
-                await Task.Run(() =>
-                {
-                    Dispatcher.BeginInvoke(() =>
-                    {
-                        MSJStatusPopUp.Text = "Operacion Cancelada";
-                        StatusPopUp.IsOpen = true;
-                        Task.Delay(1000);
-                        StatusPopUp.IsOpen = false;
-                    });
-                });
-            }
-            */
         }
 
         private async void SeenOriginal_Click(object sender, ExecutedRoutedEventArgs e)
@@ -98,7 +64,6 @@ namespace SeenExtractor
             await Dispatcher.InvokeAsync(async () =>
             {
                 ProgressBar.Visibility = Visibility.Visible;
-                //OriginalDialogs.ItemsSource = await new ReadFile().PickFile();
                 if (_NewLinesSeens != null)
                 {
                     _InfoFileRead = await _ActionFiles.LeerDialogos();
@@ -125,24 +90,21 @@ namespace SeenExtractor
             await Dispatcher.InvokeAsync(async () =>
             {
                 ProgressBar.Visibility = Visibility.Visible;
-                //OriginalDialogs.ItemsSource = await new ReadFile().PickFile();
                 _NewLinesSeens = await _ActionFiles.ImportarDialogos();
                 if (_LinesSeens != null)
                 {
                     NuevosDialogs.ItemsSource = _NewLinesSeens;
-                    //_exportDialogs = new(result.Lines);
                     DataDialogNew();
                     ProgressBar.Visibility = Visibility.Collapsed;
-                    Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-                    var encodingCP932 = Encoding.GetEncoding(932);
-                    var encodingANSI = Encoding.GetEncoding(1252);
+
+                    //Fragmento de codigo para retificar que ambas entradas sean iguales (Solo para verificacion de dialogos extraidos sean iguales a los originales leidos)
 
                     try
                     {
                         for (int i = 0; i < _NewLinesSeens.Count; i++)
                         {
-                            var texto = encodingANSI.GetBytes(_NewLinesSeens[i].Dialog);
-                            var trutexto = encodingCP932.GetString(texto);
+                            var texto = _NewLinesSeens[i].Dialog.BytesANSII();
+                            var trutexto = texto.ToStringCP932();
                             if (trutexto != _LinesSeens[i].Dialog)
                             { MessageBox.Show($"La CTM, Linea {_NewLinesSeens[i].Line}"); NuevosDialogs.SelectedIndex = i + 1;
                                 if (NuevosDialogs.SelectedItem != null)
@@ -157,11 +119,11 @@ namespace SeenExtractor
                         MessageBox.Show("Error", e.Message, MessageBoxButton.CancelTryContinue, MessageBoxImage.Error);
                     }
                     
+
                 }
                 else
                 {
                     OriginalDialogs.ItemsSource = _NewLinesSeens;
-                    //_exportDialogs = new(result.Lines);
                     ProgressBar.Visibility = Visibility.Collapsed;
                 }
             });
@@ -220,7 +182,6 @@ namespace SeenExtractor
 
         private async void Guardar_Mezclar_Click(object sender, ExecutedRoutedEventArgs e)
         {
-            //new Sustituir().Reverce(_NewLinesSeens);
             await _ActionFiles.Guardar_Mezclar_Dialogos(_LinesSeens, _NewLinesSeens, _InfoFileRead.Keys.First());
             var response = await _ActionFiles.ExportarDialogos(_NewLinesSeens, _LinesSeens);
             if (response.ContainsKey(true))
@@ -234,24 +195,25 @@ namespace SeenExtractor
             await _ActionFiles.SustituirCharacter(_NewLinesSeens);
         }
 
+
+        
+         //* Metodo desactualizado, no requerido por el momento
+         /*
         private async void DialogosNuevosClean_Click(object sender, ExecutedRoutedEventArgs e)
         {
             await Dispatcher.InvokeAsync(async () =>
             {
                 ProgressBar.Visibility = Visibility.Visible;
-                //OriginalDialogs.ItemsSource = await new ReadFile().PickFile();
                 _NewLinesSeens = await _ActionFiles.ImportarDialogosClean();
                 if (_LinesSeens != null)
                 {
                     NuevosDialogs.ItemsSource = _NewLinesSeens;
-                    //_exportDialogs = new(result.Lines);
                     DataDialogNew();
                     ProgressBar.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
                     OriginalDialogs.ItemsSource = _NewLinesSeens;
-                    //_exportDialogs = new(result.Lines);
                     ProgressBar.Visibility = Visibility.Collapsed;
                 }
             });
@@ -259,6 +221,7 @@ namespace SeenExtractor
 
         }
 
+        */
         private void DataDialogNew()
         {
             if (OriginalDialogs.ItemsSource != null)
