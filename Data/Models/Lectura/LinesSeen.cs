@@ -11,10 +11,10 @@ namespace SeenExtractor.Data.Models.Lectura
         private bool _Excede = false;
         private int _Length = 0;
         public required int Line { get; set; }
-        public required string Character { get; set; }
+        public string Character { get; set; } = string.Empty;
         public bool IsFocus { get; set; }
         public bool Japones { get; set; }
-        public required string Dialog
+        public string Dialog
         {
             get => _Dialog;
             set
@@ -51,7 +51,7 @@ namespace SeenExtractor.Data.Models.Lectura
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

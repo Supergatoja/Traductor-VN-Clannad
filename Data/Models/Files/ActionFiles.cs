@@ -5,31 +5,15 @@ using SeenExtractor.Data.Models.Lectura.Masiva;
 
 namespace SeenExtractor.Data.Models.Files
 {
-    public class ActionFiles
+    public class ActionFiles(PickFile _File, ReadFile readFile, ExportDialogs exportDialogs, ReadTraducción traducción, ReplaceDialogs replaceDialogs)
     {
-        private PickFile _File;
-        private ReadFile _ReadFile;
-        private ExportDialogs _ExportDialogs;
-        private ReadMasivSeen _ReadMasivSeen;
-        private ReadTraducción _ReadTraducción;
-        private ReplaceDialogs _ReplaceDialogs;
-
-        public ActionFiles(PickFile file, ReadFile readFile, ExportDialogs exportDialogs, ReadMasivSeen readMasivSeen, ReadTraducción traducción, ReplaceDialogs replaceDialogs)
-        {
-            _File = file;
-            _ReadFile = readFile;
-            _ExportDialogs = exportDialogs;
-            _ReadMasivSeen = readMasivSeen;
-            _ReadTraducción = traducción;
-            _ReplaceDialogs = replaceDialogs;
-        }
-        public async Task<Dictionary<string[],List<LinesSeen>>> LeerDialogos()
+        public async Task<Dictionary<string[],List<LinesSeen>>?> LeerDialogos()
         {
             if ((bool)_File.PickFileSeen().ReadOriginal())
             {
                 var file = _File.PickFileSeen().OpenFile();
-                var dialogs = await Task.Run(() => _ReadFile.ReadDialog(file));
-                return new Dictionary<string[], List<LinesSeen>> () { { new string[] { _File.PickFileSeen().FileName, _File.PickFileSeen().SafeFileName }, dialogs }};
+                var dialogs = await Task.Run(() => readFile.ReadDialog(file));
+                return new Dictionary<string[], List<LinesSeen>>() { { new string[] { _File.PickFileSeen().FileName, _File.PickFileSeen().SafeFileName }, dialogs } };
             }
             return null;
         }
@@ -39,9 +23,9 @@ namespace SeenExtractor.Data.Models.Files
             if ((bool)_File.SaveFileSeen().Save())
             {
                 var dsFile = _File.SaveFileSeen().FileName;
-                _ExportDialogs.LinesSeens = dialogos;
-                _ExportDialogs.OLinesSeens = Odialogos;
-                return await _ExportDialogs.SaveFileFialog(dsFile, true);
+                exportDialogs.LinesSeens = dialogos;
+                exportDialogs.OLinesSeens = Odialogos;
+                return await exportDialogs.SaveFileFialog(dsFile, true);
             }
             return new() { { false, "Operacion cancelada"} };
         }
@@ -50,18 +34,18 @@ namespace SeenExtractor.Data.Models.Files
             if ((bool)_File.SaveFileSeen().Save())
             {
                 var dsFile = _File.SaveFileSeen().FileName;
-                _ExportDialogs.LinesSeens = dialogos;
-                return await _ExportDialogs.SaveFileFialog(dsFile, false);
+                exportDialogs.LinesSeens = dialogos;
+                return await exportDialogs.SaveFileFialog(dsFile, false);
             }
             return new() { { false, "Operacion cancelada"} };
         }
 
-        public async Task<List<LinesSeen>> ImportarDialogos()
+        public async Task<List<LinesSeen>?> ImportarDialogos()
         {
             if ((bool)_File.PickFileSeen().ReadTranslate())
             {
                 var file = _File.PickFileSeen().OpenFile();
-                return await Task.Run(() => _ReadTraducción.GetDialogsTranslate(file));
+                return await Task.Run(() => ReadTraducción.GetDialogsTranslate(file));
             }
             return null;
         }
@@ -71,7 +55,7 @@ namespace SeenExtractor.Data.Models.Files
             if ((bool)_File.OpenFolderSeen().ReadDir())
             {
                 var patch = _File.OpenFolderSeen().FolderName;
-                await _ReadMasivSeen.GetFiles(patch);
+                await ReadMasivSeen.GetFiles(patch);
             }
 
 
@@ -82,7 +66,7 @@ namespace SeenExtractor.Data.Models.Files
             if ((bool)_File.OpenFolderSeen().SaveDir())
             {
                 var patch = _File.OpenFolderSeen().FolderName;
-                Dictionary<string,string> dic = new Dictionary<string,string>();
+                var dic = new Dictionary<string,string>();
                 for (int i = 0; i < dialogosOriginal.Count ; i++)
                 {
                     if (!dic.ContainsKey(dialogosOriginal[i].Dialog))
@@ -91,11 +75,11 @@ namespace SeenExtractor.Data.Models.Files
                     }
                     
                 }
-                await _ReplaceDialogs.SaveFileDialogInOriginal(dic, $"{patch}\\{dataFile[1]}", dataFile[0]);
+                await replaceDialogs.SaveFileDialogInOriginal(dic, $"{patch}\\{dataFile[1]}", dataFile[0]);
             }
         }
 
-        public async Task SustituirCharacter(List<LinesSeen> newLinesSeens)
+        public static async Task SustituirCharacter(List<LinesSeen> newLinesSeens)
         {
             //await Task.Run(() => _ReplaceCharacters.SustituirCaracteres_Klee(newLinesSeens));
         }

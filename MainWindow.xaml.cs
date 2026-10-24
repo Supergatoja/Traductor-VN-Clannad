@@ -13,27 +13,18 @@ namespace SeenExtractor
 {
     public partial class MainWindow : Window
     {
-        private ActionFiles _ActionFiles;
+        private readonly ActionFiles _ActionFiles;
         public List<LinesSeen> _LinesSeens;
         public List<LinesSeen> _NewLinesSeens;
         private List<LinesSeen> _NewLinesSeensRespaldo;
         private Dictionary<string[], List<LinesSeen>> _InfoFileRead;
         private Search search;
-        public static RoutedCommand Next = new();
-        public static RoutedCommand Before = new();
-        public static RoutedCommand Lectura_Masiva = new();
-        public static RoutedCommand Export = new();
-        public static RoutedCommand Open_Clean_Trans = new();
-        public static RoutedCommand CleanTranslate = new();
+        //public static readonly RoutedCommand routedCommand = new();
         private SearchDialogModel Searches;
         public MainWindow(ActionFiles actionFiles)
         {
             InitializeComponent();
             _ActionFiles = actionFiles;
-#pragma warning disable WPF0001 // Este tipo se incluye solo con fines de evaluación y está sujeto a cambios o a que se elimine en próximas actualizaciones. Suprima este diagnóstico para continuar.
-            //this.ThemeMode = ThemeMode.System;
-#pragma warning restore WPF0001 // Este tipo se incluye solo con fines de evaluación y está sujeto a cambios o a que se elimine en próximas actualizaciones. Suprima este diagnóstico para continuar.
-
         }
 
         //Boton Convertir a CP932 pero lo uso para sustitur.
@@ -138,8 +129,8 @@ namespace SeenExtractor
                 ProgressBar.Visibility = Visibility.Visible;
                 var response = _LinesSeens != null ? await _ActionFiles.ExportarDialogos(_LinesSeens) : await _ActionFiles.ExportarDialogos(_NewLinesSeens) ;
                 ProgressBar.Visibility = Visibility.Collapsed;
-                if (response.ContainsKey(true))
-                    MessageBox.Show("Guardado", response[true], MessageBoxButton.OK, MessageBoxImage.Information);
+                if (response.TryGetValue(true, out string? value))
+                    MessageBox.Show("Guardado", value, MessageBoxButton.OK, MessageBoxImage.Information);
                 else
                     MessageBox.Show("Guardado", response[false], MessageBoxButton.OK, MessageBoxImage.Error);
 
@@ -184,15 +175,15 @@ namespace SeenExtractor
         {
             await _ActionFiles.Guardar_Mezclar_Dialogos(_LinesSeens, _NewLinesSeens, _InfoFileRead.Keys.First());
             var response = await _ActionFiles.ExportarDialogos(_NewLinesSeens, _LinesSeens);
-            if (response.ContainsKey(true))
-                MessageBox.Show("Guardado",response[true], MessageBoxButton.OK, MessageBoxImage.Information);
+            if (response.TryGetValue(true, out string? value))
+                MessageBox.Show("Guardado", value, MessageBoxButton.OK, MessageBoxImage.Information);
             else
                 MessageBox.Show("Guardado", response[false], MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private async void SuistituirCaracteres_Click(object sender, RoutedEventArgs e)
         {
-            await _ActionFiles.SustituirCharacter(_NewLinesSeens);
+            await ActionFiles.SustituirCharacter(_NewLinesSeens);
         }
 
 
@@ -345,7 +336,7 @@ namespace SeenExtractor
 
         private void CleanTranslate_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = _NewLinesSeens != null ? true : false;
+            e.CanExecute = _NewLinesSeens != null;
         }
 
         private void CommandBinding_CanExecute_1(object sender, CanExecuteRoutedEventArgs e)
@@ -354,7 +345,7 @@ namespace SeenExtractor
             {
                 foreach (var item in _NewLinesSeens)
                 {
-                    e.CanExecute = item.Excede ? false : true;
+                    e.CanExecute = !item.Excede;
                     if (!(e.CanExecute))
                         break;
                 }

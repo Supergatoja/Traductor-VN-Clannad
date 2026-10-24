@@ -11,11 +11,11 @@ namespace SeenExtractor.Data.Views.Search
     public partial class Search : Window
     {
         public string? Prueba { get; set; }
-        private ActionsSearch Actions = new();
-        private List<LinesSeen> _NewLineSeens;
-        private List<LinesSeen> _LineasSeens;
-        private bool Mode;
-        private List<LinesSeen> newLinesSeens;
+        private readonly ActionsSearch Actions = new();
+        private readonly List<LinesSeen> _NewLineSeens;
+        private readonly List<LinesSeen> _LineasSeens;
+        private readonly bool Mode;
+        //private List<LinesSeen> newLinesSeens;
         public SearchDialogModel _Dialogos;
 
         public Search(List<LinesSeen> linesSeens, List<LinesSeen> newLinesSeens)

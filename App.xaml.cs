@@ -16,10 +16,8 @@ namespace SeenExtractor
         private async void Application_Startup(object sender, StartupEventArgs e)
         {
             var builder = Host.CreateApplicationBuilder();
-            foreach (var inyeccion in new Inyeccion().GetList)
-            {
-                builder.Services.AddSingleton(inyeccion);
-            }
+
+            builder.Servicios();
 
             _host = builder.Build();
 

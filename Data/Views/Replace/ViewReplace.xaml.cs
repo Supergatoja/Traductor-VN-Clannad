@@ -33,13 +33,13 @@ namespace SeenExtractor.Data.Views.Replace
             if ((bool)Acentos.IsChecked)
             {
                 Replace_Acentos(dialogos);
-            }else Actions.Replace_Dialog(new Dictionary<string, string>() { { txtOriginal.Text, txtNuevo.Text } }, dialogos);
+            }else ActionsSearch.Replace_Dialog(new Dictionary<string, string>() { { txtOriginal.Text, txtNuevo.Text } }, dialogos);
             ((Search.Search)Data["Window"]).DialogResult = true;
             ((Search.Search)Data["Window"]).Close();
         }
 
 
-        private void Replace_Acentos(List<LinesSeen> dialogos)
+        private static void Replace_Acentos(List<LinesSeen> dialogos)
         {
             //new Sustituir().SustituirCaracteres_Klee(dialogos);
         }

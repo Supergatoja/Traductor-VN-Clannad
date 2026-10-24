@@ -13,35 +13,35 @@
 
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Find" Executed="CommandBinding_Executed" CanExecute="CommandBinding_CanExecute"/>
-        <CommandBinding Command="{x:Static local:MainWindow.Next}" Executed="NextDialog" CanExecute="NextDialog_CanExecute"/>
-        <CommandBinding Command="{x:Static local:MainWindow.Before}" Executed="BeforeDialog" CanExecute="BeforeDialog_CanExecute"/>
+        <CommandBinding Command="{x:Static local:MainWindowHelpers.Next}" Executed="NextDialog" CanExecute="NextDialog_CanExecute"/>
+        <CommandBinding Command="{x:Static local:MainWindowHelpers.Before}" Executed="BeforeDialog" CanExecute="BeforeDialog_CanExecute"/>
         <CommandBinding Command="ApplicationCommands.Open" Executed="SeenOriginal_Click" />
         <CommandBinding Command="ApplicationCommands.New" Executed="DialogosNuevos_Click" />
         <CommandBinding Command="ApplicationCommands.Save" Executed="Guardar_Mezclar_Click" CanExecute="CommandBinding_CanExecute_1"/>
-        <CommandBinding Command="{x:Static local:MainWindow.Lectura_Masiva}" Executed="OpenFolderDialogs_Click" />
-        <CommandBinding Command="{x:Static local:MainWindow.Export}" Executed="ExportDialogs_Click" />
+        <CommandBinding Command="{x:Static local:MainWindowHelpers.Lectura_Masiva}" Executed="OpenFolderDialogs_Click" />
+        <CommandBinding Command="{x:Static local:MainWindowHelpers.Export}" Executed="ExportDialogs_Click" />
         <!--<CommandBinding Command="{x:Static local:MainWindow.Open_Clean_Trans}" Executed="DialogosNuevosClean_Click" />-->
         <CommandBinding Command="ApplicationCommands.Replace" Executed="Replace_Executed" />
-        <CommandBinding Command="{x:Static local:MainWindow.CleanTranslate}" Executed="CleanTranslate_Executed" CanExecute="CleanTranslate_CanExecute" />
+        <CommandBinding Command="{x:Static local:MainWindowHelpers.CleanTranslate}" Executed="CleanTranslate_Executed" CanExecute="CleanTranslate_CanExecute" />
     </Window.CommandBindings>
 
     <Window.InputBindings>
         <KeyBinding Key="F6"
-              Command="{x:Static local:MainWindow.Next}" />
+              Command="{x:Static local:MainWindowHelpers.Next}" />
         <KeyBinding Key="F6"
               Modifiers="Control" 
-              Command="{x:Static local:MainWindow.Before}" />
+              Command="{x:Static local:MainWindowHelpers.Before}" />
         <KeyBinding Key="M"
               Modifiers="Control" 
-              Command="{x:Static local:MainWindow.Lectura_Masiva}" />
+              Command="{x:Static local:MainWindowHelpers.Lectura_Masiva}" />
         <KeyBinding Key="E"
               Modifiers="Control" 
-              Command="{x:Static local:MainWindow.Export}" />
+              Command="{x:Static local:MainWindowHelpers.Export}" />
         <KeyBinding Key="N"
               Modifiers="Shift" 
-              Command="{x:Static local:MainWindow.Open_Clean_Trans}" />
+              Command="{x:Static local:MainWindowHelpers.Open_Clean_Trans}" />
         <KeyBinding Gesture="CTRL+SHIFT+N"
-              Command="{x:Static local:MainWindow.CleanTranslate}" />
+              Command="{x:Static local:MainWindowHelpers.CleanTranslate}" />
     </Window.InputBindings>
 
     <Window.Resources>
@@ -112,10 +112,10 @@
                 <Separator/>
                 <Button Height="auto" Command="ApplicationCommands.Open" >Abrir Seen</Button>
                 <Button Height="auto" Command="ApplicationCommands.New" >Abrir Traducción</Button>
-                <Button Height="auto" Command="{x:Static local:MainWindow.Lectura_Masiva}" >Abrir Carpeta</Button>
-                <Button Height="auto" Command="{x:Static local:MainWindow.Open_Clean_Trans}" ToolBar.OverflowMode="Always" >Abrir Traducción L</Button>
+                <Button Height="auto" Command="{x:Static local:MainWindowHelpers.Lectura_Masiva}" >Abrir Carpeta</Button>
+                <Button Height="auto" Command="{x:Static local:MainWindowHelpers.Open_Clean_Trans}" ToolBar.OverflowMode="Always" >Abrir Traducción L</Button>
                 <Separator/>
-                <Button Height="auto" Command="{x:Static local:MainWindow.Export}" >Extraer Dialogos</Button>
+                <Button Height="auto" Command="{x:Static local:MainWindowHelpers.Export}" >Extraer Dialogos</Button>
                 <Button Height="auto" Click="SuistituirCaracteres_Click" >Sustituir Acentos, Caracter especial</Button>
                 <Button Height="auto" Command="ApplicationCommands.Save" >Guardar/Mezclar</Button>
                 <Button Height="auto" Command="ApplicationCommands.Find" >Buscar</Button>

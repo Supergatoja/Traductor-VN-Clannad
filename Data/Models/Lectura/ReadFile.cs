@@ -2,20 +2,15 @@
 
 namespace SeenExtractor.Data.Models.Lectura
 {
-    public partial class ReadFile
+    public partial class ReadFile(RellenarList rellenarList)
     {
-        private RellenarList _GetList;
-        public ReadFile(RellenarList rellenarList)
-        {
-            _GetList = rellenarList;
-        }
 
-        public async Task<List<LinesSeen>> ReadDialog(Stream file) =>_GetList.UseRegexComillasCP932ToList(file);
+        public async Task<List<LinesSeen>> ReadDialog(Stream file) => rellenarList.UseRegexComillasCP932ToList(file);
 
         public async Task<List<LinesSeen>> ReadDialog(string file)
         {
             using FileStream streamReader = new(file, FileMode.Open, FileAccess.Read);
-            return _GetList.UseRegexComillasCP932ToList(streamReader);
+            return rellenarList.UseRegexComillasCP932ToList(streamReader);
         }
 
 

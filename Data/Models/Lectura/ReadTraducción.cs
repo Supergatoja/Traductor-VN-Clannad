@@ -8,14 +8,14 @@ namespace SeenExtractor.Data.Models.Lectura
 {
     public class ReadTraducción
     {
-        public async Task<List<LinesSeen>> GetDialogsTranslate(Stream file)
+        public static async Task<List<LinesSeen>> GetDialogsTranslate(Stream file)
         {
             var dialogs = new List<LinesSeen>();
 
             using (var reader = new StreamReader(file, GetEncodings.ANSII()))
             {
                 string? line;
-                int i = 1;
+                //int i = 1;
 
                 line = reader.ReadToEnd();
                 var resultss = ConfigRegex.ExtractTranslateTwo().Matches(line);
@@ -30,9 +30,9 @@ namespace SeenExtractor.Data.Models.Lectura
                             var newLine = results.Groups[3].Value;
                             var limiteS = results.Groups[4].Value;
 
-                            int.TryParse(limiteS, out int limite);
-                            
-                            int.TryParse(numLineS, out int numLine);
+                            _ = int.TryParse(limiteS, out int limite);
+
+                            _ = int.TryParse(numLineS, out int numLine);
                             
                             var matchLine = dialogs.FirstOrDefault(Line => Line.Line == numLine);
                             if (matchLine != null)
@@ -56,9 +56,9 @@ namespace SeenExtractor.Data.Models.Lectura
                             var nombre = results.Groups[2].Value.ConvertToCP932();
                             var newLine = results.Groups[3].Value;
                             var limiteS = results.Groups[4].Value;
-                            int.TryParse(limiteS, out int limite);
-                            
-                            int.TryParse(numLineS, out int numLine);
+                            _ = int.TryParse(limiteS, out int limite);
+
+                            _ = int.TryParse(numLineS, out int numLine);
                             var matchLine = dialogs.FirstOrDefault(Line => Line.Line == numLine);
                             if (matchLine != null)
                             {
