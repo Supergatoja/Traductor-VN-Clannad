@@ -1,7 +1,6 @@
 ﻿using SeenExtractor.Data.Models.Extenciones.ChangeEncoding.Strings;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace SeenExtractor.Data.Models.Lectura
 {

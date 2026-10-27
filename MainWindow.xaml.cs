@@ -31,7 +31,7 @@ namespace SeenExtractor
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             _NewLinesSeensRespaldo = _NewLinesSeens;
-            Regex suspiro = new(@"\*Suspiro\*", RegexOptions.Compiled);
+            Regex suspiro = Suspiro();
             foreach (var item in _NewLinesSeens)
             {
                 var fsys = suspiro.Replace(item.Dialog, dialog =>
@@ -353,5 +353,8 @@ namespace SeenExtractor
             else
                 e.CanExecute = false;
         }
+
+        [GeneratedRegex(@"\*Suspiro\*", RegexOptions.Compiled)]
+        private static partial Regex Suspiro();
     }
 }

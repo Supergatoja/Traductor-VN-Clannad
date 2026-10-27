@@ -8,7 +8,7 @@
         xmlns:ReadDialog="clr-namespace:SeenExtractor.Data.Models.Lectura"
         mc:Ignorable="d"
         Title="Read-Write Seen" Height="960" Width="1280"
-        FontFamily="{StaticResource Klee_One_SB}">
+        FontFamily="{StaticResource Klee_One_SB}" WindowStyle="None">
 
 
     <Window.CommandBindings>
@@ -233,10 +233,10 @@
                                             <Style.Triggers>
 
                                                 <DataTrigger Binding="{Binding Excede}" Value="true">
-                                                        <Setter Property="Foreground" Value="Red"/>
-                                                    </DataTrigger>
+                                                    <Setter Property="Foreground" Value="Red"/>
+                                                </DataTrigger>
 
-                                                    <DataTrigger Binding="{Binding Excede}" Value="false">
+                                                <DataTrigger Binding="{Binding Excede}" Value="false">
                                                     <Setter Property="Foreground" Value="White"/>
                                                 </DataTrigger>
                                             </Style.Triggers>

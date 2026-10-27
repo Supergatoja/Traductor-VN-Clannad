@@ -29,14 +29,13 @@ namespace SeenExtractor.Data.Views.Search
             if ((bool)chbCharacter.IsChecked)
             {
                 if ((bool)chbSensible.IsChecked)
-                    result = ActionsSearch.Search_CharacterS(valor.Text, ((List<LinesSeen>)Data["Dialogos Originales"]), ((List<LinesSeen>)Data["Dialogos Nuevos"]));
-                else { result = ActionsSearch.Search_Character(valor.Text, ((List<LinesSeen>)Data["Dialogos Originales"]), ((List<LinesSeen>)Data["Dialogos Nuevos"])); }
+                    result = ActionsSearch.Search_CharacterS(valor.Text, (List<LinesSeen>)Data["Dialogos Originales"], (List<LinesSeen>)Data["Dialogos Nuevos"]);
+                else result = ActionsSearch.Search_Character(valor.Text, (List<LinesSeen>)Data["Dialogos Originales"], (List<LinesSeen>)Data["Dialogos Nuevos"]);
             }
             else{
                 if ((bool)chbSensible.IsChecked)
-                    result = ActionsSearch.Search_DialogS(valor.Text, ((List<LinesSeen>)Data["Dialogos Originales"]), ((List<LinesSeen>)Data["Dialogos Nuevos"]));
-
-                else { result = ActionsSearch.Search_Dialog(valor.Text, ((List<LinesSeen>)Data["Dialogos Originales"]), ((List<LinesSeen>)Data["Dialogos Nuevos"])); } 
+                    result = ActionsSearch.Search_DialogS(valor.Text, (List<LinesSeen>)Data["Dialogos Originales"], (List<LinesSeen>)Data["Dialogos Nuevos"]);
+                else result = ActionsSearch.Search_Dialog(valor.Text, (List<LinesSeen>)Data["Dialogos Originales"], (List<LinesSeen>)Data["Dialogos Nuevos"]);
             }
             ((Search)Data["Window"]).DialogResult = true;
             ((Search)Data["Window"])._Dialogos = result;
