@@ -6,10 +6,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SeenExtractor"
         xmlns:ReadDialog="clr-namespace:SeenExtractor.Data.Models.Lectura"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
         mc:Ignorable="d"
         Title="Read-Write Seen" Height="960" Width="1280"
-        FontFamily="{StaticResource Klee_One_SB}" WindowStyle="None">
+        FontFamily="{StaticResource Klee_One_SB}"
+        Background="Transparent"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        FontWeight="UltraBlack"
+        FontStyle="Italic"
+        FontSize="16"
+        >
 
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="30" 
+                      ResizeBorderThickness="6" 
+                      GlassFrameThickness="0" 
+                      UseAeroCaptionButtons="True"/>
+    </WindowChrome.WindowChrome>
 
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Find" Executed="CommandBinding_Executed" CanExecute="CommandBinding_CanExecute"/>
@@ -47,13 +61,6 @@
     <Window.Resources>
 
         <Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
-            <!--<Setter Property="Background" Value="Black"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="RowBackground" Value="Transparent"/>
-            <Setter Property="AlternatingRowBackground" Value="Transparent"/>
-            <Setter Property="GridLinesVisibility" Value="None"/>
-            <Setter Property="HorizontalGridLinesBrush" Value="#333333"/>
-            <Setter Property="VerticalGridLinesBrush" Value="#333333"/>-->
             <Setter Property="AutoGenerateColumns" Value="False"/>
             <Setter Property="CanUserResizeColumns" Value="False"/>
             <Setter Property="CanUserResizeRows" Value="False"/>
@@ -65,25 +72,6 @@
             <Setter Property="ClipboardCopyMode" Value="ExcludeHeader"/>
             <Setter Property="ClipToBounds" Value="True"/>
         </Style>
-
-        <!--<Style TargetType="DataGridColumnHeader">
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Padding" Value="8,5,8,5"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="DataGridColumnHeader">
-                        <Border Background="#222222" 
-                    BorderBrush="#444444" 
-                    BorderThickness="0,0,1,1" 
-                    Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>-->
 
         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Padding" Value="1,1,1,1"/>
@@ -98,178 +86,177 @@
 
     </Window.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="11*"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid.RowSpan>5</Grid.RowSpan>
+    <Border 
+            Background="#013F3F3F"
+            BorderBrush="#801F1F1F"
+            BorderThickness="3"
+            CornerRadius="6">
 
-        <ToolBarTray Grid.Column="0">
-            <ToolBar Band="1" BandIndex="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                <Button Click="Button_Click" >Convertir a CP932</Button>
-                <Separator/>
-                <Button Height="auto" Command="ApplicationCommands.Open" >Abrir Seen</Button>
-                <Button Height="auto" Command="ApplicationCommands.New" >Abrir Traducción</Button>
-                <Button Height="auto" Command="{x:Static local:MainWindowHelpers.Lectura_Masiva}" >Abrir Carpeta</Button>
-                <Button Height="auto" Command="{x:Static local:MainWindowHelpers.Open_Clean_Trans}" ToolBar.OverflowMode="Always" >Abrir Traducción L</Button>
-                <Separator/>
-                <Button Height="auto" Command="{x:Static local:MainWindowHelpers.Export}" >Extraer Dialogos</Button>
-                <Button Height="auto" Click="SuistituirCaracteres_Click" >Sustituir Acentos, Caracter especial</Button>
-                <Button Height="auto" Command="ApplicationCommands.Save" >Guardar/Mezclar</Button>
-                <Button Height="auto" Command="ApplicationCommands.Find" >Buscar</Button>
-            </ToolBar>
-        </ToolBarTray>
-
-
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="5" Opacity="0.3"/>
+        </Border.Effect>
 
 
 
-            <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="5*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                </Grid.RowDefinitions>
+        <Grid RowDefinitions="30,*,11*,30">
+            <Grid.RowSpan>5</Grid.RowSpan>
 
+            <Grid Grid.Row="0" Background="Transparent" MouseLeftButtonDown="CustomTitleBar_MouseDown">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-                <Grid Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
+                <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}" 
+                   VerticalAlignment="Center" Margin="10,0,0,0" 
+                   FontSize="12" IsHitTestVisible="False"/>
 
-                </Grid>
-
-
-
-            </Grid>
-            <Popup x:Name="StatusPopUp" Grid.Column="0">
-                <StackPanel>
-                    <TextBlock x:Name="MSJStatusPopUp" Padding="7">
-                    </TextBlock>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" WindowChrome.IsHitTestVisibleInChrome="True">
+                    <Button x:Name="BtnMinimize" Content="🗕" Width="45" Height="30" Click="Minimize_Click" Background="Transparent" BorderBrush="Transparent"/>
+                    <Button x:Name="BtnMaximize" Content="🗖" Width="45" Height="30" Click="Maximize_Click" Background="Transparent" BorderBrush="Transparent"/>
+                    <Button x:Name="BtnClose" Width="45" Height="30" Click="Close_Click" Background="Transparent" BorderBrush="Transparent">
+                        <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                            <Setter Property="Content" Value="✕"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="Red"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                        </Style>
+                        </Button.Style>
+                    </Button>
                 </StackPanel>
-            </Popup>
+            </Grid>
 
-        </Grid>
+            <ToolBarTray Grid.Row="1">
+                <ToolBar Band="1" BandIndex="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Button Click="Button_Click" >Convertir a CP932</Button>
+                    <Separator/>
+                    <Button Height="auto" Command="ApplicationCommands.Open">
+                        <svgc:SvgViewbox Source="/Data/images/Icons/Home.svg"/>
+                    </Button>
+                    <Button Height="auto" Command="ApplicationCommands.New" >Abrir Traducción</Button>
+                    <Button Height="auto" Command="{x:Static local:MainWindowHelpers.Lectura_Masiva}" >Abrir Carpeta</Button>
+                    <Button Height="auto" Command="{x:Static local:MainWindowHelpers.Open_Clean_Trans}" ToolBar.OverflowMode="Always" >Abrir Traducción L</Button>
+                    <Separator/>
+                    <Button Height="auto" Command="{x:Static local:MainWindowHelpers.Export}" >Extraer Dialogos</Button>
+                    <Button Height="auto" Click="SuistituirCaracteres_Click" >Sustituir Acentos, Caracter especial</Button>
+                    <Button Height="auto" Command="ApplicationCommands.Save" >Guardar/Mezclar</Button>
+                    <Button Height="auto" Command="ApplicationCommands.Find" >Buscar</Button>
+                </ToolBar>
+            </ToolBarTray>
 
-        <Grid Grid.Row="1" VerticalAlignment="Stretch">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" x:Name="tamañoOriginal"></ColumnDefinition>
-                <ColumnDefinition Width="0" x:Name="tamañoNuevo"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-
-
-            <DataGrid x:Name="OriginalDialogs" Grid.Column="0" SelectionChanged="LineaSelectOriginal" ClipToBounds="True" VerticalAlignment="Stretch" >
-
-                <DataGrid.Columns >
-
-                    <DataGridTextColumn Header="Línea" Binding="{Binding Line}" IsReadOnly="True" Width="Auto"/>
-
-
-                    <DataGridTextColumn Header="Personaje" Binding="{Binding Character}" IsReadOnly="True" Width="Auto"/>
-
-                    <DataGridTemplateColumn Header="Texto Extraído" Width="*">
-
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Dialog, Mode=OneWay}" TextWrapping="Wrap" Padding="4"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-
-                </DataGrid.Columns>
-
-            </DataGrid>
+            <Grid Grid.Row="2" VerticalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" x:Name="tamañoOriginal"></ColumnDefinition>
+                    <ColumnDefinition Width="0" x:Name="tamañoNuevo"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
 
 
-            <DataGrid x:Name="NuevosDialogs" Grid.Column="1" SelectionChanged="LineaSelectNuevo" Visibility="Collapsed" >
-                <DataGrid.Columns >
+                <DataGrid x:Name="OriginalDialogs" Grid.Column="0" SelectionChanged="LineaSelectOriginal" ClipToBounds="True" VerticalAlignment="Stretch" >
 
-                    <DataGridTextColumn Header="Línea" Binding="{Binding Line}" IsReadOnly="True" Width="Auto" />
+                    <DataGrid.Columns >
 
-                    <DataGridTextColumn Header="Personaje" Binding="{Binding Character}" IsReadOnly="True" Width="Auto"/>
+                        <DataGridTextColumn Header="Línea" Binding="{Binding Line}" IsReadOnly="True" Width="Auto"/>
 
-                    <DataGridTemplateColumn Header="Texto Extraído" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Dialog, Mode=OneWay}" TextWrapping="Wrap" Padding="4">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Excede}" Value="true">
-                                                    <Setter Property="Foreground" Value="Red"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding Excede}" Value="false">
-                                                    <Setter Property="Foreground" Value="White"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                        <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
-                                <TextBox Text="{Binding Dialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+
+                        <DataGridTextColumn Header="Personaje" Binding="{Binding Character}" IsReadOnly="True" Width="Auto"/>
+
+                        <DataGridTemplateColumn Header="Texto Extraído" Width="*">
+
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Dialog, Mode=OneWay}" TextWrapping="Wrap" Padding="4"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                    </DataGrid.Columns>
+
+                </DataGrid>
+
+
+                <DataGrid x:Name="NuevosDialogs" Grid.Column="1" SelectionChanged="LineaSelectNuevo" Visibility="Collapsed" >
+                    <DataGrid.Columns >
+
+                        <DataGridTextColumn Header="Línea" Binding="{Binding Line}" IsReadOnly="True" Width="Auto" />
+
+                        <DataGridTextColumn Header="Personaje" Binding="{Binding Character}" IsReadOnly="True" Width="Auto"/>
+
+                        <DataGridTemplateColumn Header="Texto Extraído" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Dialog, Mode=OneWay}" TextWrapping="Wrap" Padding="4">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Excede}" Value="true">
+                                                        <Setter Property="Foreground" Value="Red"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Excede}" Value="false">
+                                                        <Setter Property="Foreground" Value="White"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Dialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                          TextWrapping="Wrap"
                                          BorderThickness="0"
                                          MaxLength="{Binding Length}"
                                          >
-                                    <TextBox.Style>
-                                        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
-                                            <Style.Triggers>
+                                        <TextBox.Style>
+                                            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                                                <Style.Triggers>
 
-                                                <DataTrigger Binding="{Binding Excede}" Value="true">
-                                                    <Setter Property="Foreground" Value="Red"/>
-                                                </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Excede}" Value="true">
+                                                        <Setter Property="Foreground" Value="Red"/>
+                                                    </DataTrigger>
 
-                                                <DataTrigger Binding="{Binding Excede}" Value="false">
-                                                    <Setter Property="Foreground" Value="White"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBox.Style>
-                                </TextBox>
+                                                    <DataTrigger Binding="{Binding Excede}" Value="false">
+                                                        <Setter Property="Foreground" Value="White"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBox.Style>
+                                    </TextBox>
 
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellEditingTemplate>
-                    </DataGridTemplateColumn>
-                    <!--
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <!--
                     <DataGridCheckBoxColumn Header="¿Uso de Japones?" Width="50" Binding="{Binding Japones, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
                         
                     </DataGridCheckBoxColumn>
                     -->
-                </DataGrid.Columns>
+                    </DataGrid.Columns>
 
-            </DataGrid>
+                </DataGrid>
+
+            </Grid>
+
+            <StatusBar x:Name="Status" Grid.Row="3">
+                <StatusBarItem>
+                    <TextBlock Text="Extrayendo"/>
+                </StatusBarItem>
+                <StatusBarItem  HorizontalAlignment="Center">
+                    <ProgressBar IsIndeterminate="True" Grid.Row="1" Width="120" Height="15" Visibility="Collapsed" x:Name="ProgressBar" VerticalAlignment="Center"></ProgressBar>
+                </StatusBarItem>
+                <StatusBarItem>
+                    <TextBlock x:Name="InfoData"></TextBlock>
+                </StatusBarItem>
+            </StatusBar>
 
         </Grid>
 
-        <StatusBar x:Name="Status" Grid.Row="2">
-            <StatusBarItem>
-                <TextBlock Text="Extrayendo"/>
-            </StatusBarItem>
-            <StatusBarItem  HorizontalAlignment="Center">
-                <ProgressBar IsIndeterminate="True" Grid.Row="1" Width="120" Height="15" Visibility="Collapsed" x:Name="ProgressBar" VerticalAlignment="Center"></ProgressBar>
-            </StatusBarItem>
-            <StatusBarItem>
-                <TextBlock x:Name="InfoData"></TextBlock>
-            </StatusBarItem>
-        </StatusBar>
 
-    </Grid>
+
+    </Border>
+
 
 </Window>

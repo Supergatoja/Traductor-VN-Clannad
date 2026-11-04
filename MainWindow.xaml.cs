@@ -1,5 +1,6 @@
 ﻿using SeenExtractor.Data.Models.Dialogos.Search;
 using SeenExtractor.Data.Models.Extenciones.ChangeEncoding.Strings;
+using SeenExtractor.Data.Models.Extenciones.Theme;
 using SeenExtractor.Data.Models.Files;
 using SeenExtractor.Data.Models.Lectura;
 using SeenExtractor.Data.Views.Search;
@@ -20,11 +21,13 @@ namespace SeenExtractor
         private Dictionary<string[], List<LinesSeen>> _InfoFileRead;
         private Search search;
         //public static readonly RoutedCommand routedCommand = new();
-        private SearchDialogModel Searches;
+        public SearchDialogModel Searches;
         public MainWindow(ActionFiles actionFiles)
         {
             InitializeComponent();
             _ActionFiles = actionFiles;
+            //this.SourceInitialized += (s, e) => WindowEfectAcrylic.EnableBlur(this);
+            this.SourceInitialized += (s, e) => ApplyTheme.Theme(this);
         }
 
         //Boton Convertir a CP932 pero lo uso para sustitur.
@@ -97,19 +100,21 @@ namespace SeenExtractor
                             var texto = _NewLinesSeens[i].Dialog.BytesANSII();
                             var trutexto = texto.ToStringCP932();
                             if (trutexto != _LinesSeens[i].Dialog)
-                            { MessageBox.Show($"La CTM, Linea {_NewLinesSeens[i].Line}"); NuevosDialogs.SelectedIndex = i + 1;
+                            {
+                                MessageBox.Show($"La CTM, Linea {_NewLinesSeens[i].Line}"); NuevosDialogs.SelectedIndex = i + 1;
                                 if (NuevosDialogs.SelectedItem != null)
                                 {
                                     NuevosDialogs.ScrollIntoView(NuevosDialogs.SelectedItem);
                                 }
-                                break; }
+                                break;
+                            }
                         }
                     }
                     catch (Exception e)
                     {
                         MessageBox.Show("Error", e.Message, MessageBoxButton.CancelTryContinue, MessageBoxImage.Error);
                     }
-                    
+
 
                 }
                 else
@@ -127,7 +132,7 @@ namespace SeenExtractor
             await Dispatcher.InvokeAsync(async () =>
             {
                 ProgressBar.Visibility = Visibility.Visible;
-                var response = _LinesSeens != null ? await _ActionFiles.ExportarDialogos(_LinesSeens) : await _ActionFiles.ExportarDialogos(_NewLinesSeens) ;
+                var response = _LinesSeens != null ? await _ActionFiles.ExportarDialogos(_LinesSeens) : await _ActionFiles.ExportarDialogos(_NewLinesSeens);
                 ProgressBar.Visibility = Visibility.Collapsed;
                 if (response.TryGetValue(true, out string? value))
                     MessageBox.Show("Guardado", value, MessageBoxButton.OK, MessageBoxImage.Information);
@@ -187,32 +192,32 @@ namespace SeenExtractor
         }
 
 
-        
-         //* Metodo desactualizado, no requerido por el momento
-         /*
-        private async void DialogosNuevosClean_Click(object sender, ExecutedRoutedEventArgs e)
-        {
-            await Dispatcher.InvokeAsync(async () =>
-            {
-                ProgressBar.Visibility = Visibility.Visible;
-                _NewLinesSeens = await _ActionFiles.ImportarDialogosClean();
-                if (_LinesSeens != null)
-                {
-                    NuevosDialogs.ItemsSource = _NewLinesSeens;
-                    DataDialogNew();
-                    ProgressBar.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    OriginalDialogs.ItemsSource = _NewLinesSeens;
-                    ProgressBar.Visibility = Visibility.Collapsed;
-                }
-            });
+
+        //* Metodo desactualizado, no requerido por el momento
+        /*
+       private async void DialogosNuevosClean_Click(object sender, ExecutedRoutedEventArgs e)
+       {
+           await Dispatcher.InvokeAsync(async () =>
+           {
+               ProgressBar.Visibility = Visibility.Visible;
+               _NewLinesSeens = await _ActionFiles.ImportarDialogosClean();
+               if (_LinesSeens != null)
+               {
+                   NuevosDialogs.ItemsSource = _NewLinesSeens;
+                   DataDialogNew();
+                   ProgressBar.Visibility = Visibility.Collapsed;
+               }
+               else
+               {
+                   OriginalDialogs.ItemsSource = _NewLinesSeens;
+                   ProgressBar.Visibility = Visibility.Collapsed;
+               }
+           });
 
 
-        }
+       }
 
-        */
+       */
         private void DataDialogNew()
         {
             if (OriginalDialogs.ItemsSource != null)
@@ -289,22 +294,14 @@ namespace SeenExtractor
             {
                 e.CanExecute = true;
             }
-            else { e.CanExecute = false; MessageBox.Show("Busqueda","No hay mas coincidencias", MessageBoxButton.OK, MessageBoxImage.Information); };
+            else { e.CanExecute = false; MessageBox.Show("Busqueda", "No hay mas coincidencias", MessageBoxButton.OK, MessageBoxImage.Information); }
+            ;
         }
 
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            search = new(_LinesSeens, _NewLinesSeens);
-            if ((bool)search.ShowDialog() == true)
-            {
-                Searches = search._Dialogos;
-                if (Searches.Searches.Count > 0)
-                {
-                    OriginalDialogs.SelectedIndex = Searches.GetMatch();
-                    OriginalDialogs.ScrollIntoView(OriginalDialogs.SelectedItem);
-                }
-                else MessageBox.Show("Busqueda", "Sin Coincidencias", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            search = new(_LinesSeens, _NewLinesSeens) { Owner = this };
+            search.Show();
         }
 
         private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -314,11 +311,12 @@ namespace SeenExtractor
 
         private void Replace_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            search = new(_NewLinesSeens);
-            if ((bool)search.ShowDialog() == true)
+            search = new(_NewLinesSeens) { Owner = this };
+            /*if ((bool)search.ShowDialog() == true)
             {
 
-            }
+            }*/
+            search.Show();
         }
 
         private void CleanTranslate_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -352,6 +350,36 @@ namespace SeenExtractor
             }
             else
                 e.CanExecute = false;
+        }
+
+        private void CustomTitleBar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+
+        private void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void Maximize_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal;
+            }
+            else
+            {
+                this.WindowState = WindowState.Maximized;
+            }
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         [GeneratedRegex(@"\*Suspiro\*", RegexOptions.Compiled)]

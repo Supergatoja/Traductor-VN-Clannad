@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 64 64"
+     fill="none"
+     stroke="currentColor"
+     stroke-width="2.5"
+     stroke-linecap="round"
+     stroke-linejoin="round">
+
+  <!--
+    Michi Icons
+    Icon: File
+    Style: Outline
+    Expression: Neutral
+    Version: 1.0.0
+    License: MIT
+  -->
+
+
+  <!-- Documento con oreja felina -->
+  <path d="
+    M20 10
+
+    H39
+
+    L50 21
+
+    V50
+
+    C50 52
+    48 54
+    46 54
+
+    H20
+
+    C18 54
+    16 52
+    16 50
+
+    V14
+
+    C16 12
+    18 10
+    20 10
+  "/>
+
+
+  <!-- Esquina doblada / oreja -->
+  <path d="
+    M39 10
+    V21
+    H50
+  "/>
+
+
+  <!-- Pequeño detalle felino en la esquina -->
+  <path d="
+    M39 10
+    L44 15
+    L39 15
+    Z
+  "/>
+
+
+  <!-- Ojos discretos -->
+  <circle cx="27" cy="34" r="1.4"/>
+  <circle cx="37" cy="34" r="1.4"/>
+
+
+  <!-- Nariz -->
+  <path d="
+    M32 37
+    L30 39.5
+    H34
+    Z
+  "/>
+
+
+  <!-- Boca neutral -->
+  <path d="
+    M32 40
+    V42
+  "/>
+
+
+  <!-- Bigotes mínimos -->
+  <path d="M25 38 H18"/>
+  <path d="M39 38 H46"/>
+
+
+  <!-- Líneas de documento -->
+  <path d="M24 46 H40"/>
+  <path d="M24 49 H36"/>
+
+
+</svg>

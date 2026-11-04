@@ -1,8 +1,5 @@
 ﻿using SeenExtractor.Data.Models.Dialogos.Search;
-using SeenExtractor.Data.Models.Escritura;
-using SeenExtractor.Data.Models.Files;
 using SeenExtractor.Data.Models.Lectura;
-using SeenExtractor.Data.Models.Sustitución;
 using System.Windows;
 using System.Windows.Controls;
 

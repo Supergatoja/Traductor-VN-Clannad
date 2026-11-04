@@ -11,11 +11,17 @@
   <ItemGroup>
     <None Remove="Data\Fonts\KleeOne-Regular.ttf" />
     <None Remove="Data\Fonts\KleeOne-SemiBold.ttf" />
+    <None Remove="Data\images\Icons\borrar.svg" />
     <None Remove="Data\images\result_0 %286%29.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Data\images\Icons\borrar.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.10" />
+    <PackageReference Include="SharpVectors" Version="1.8.6" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +31,16 @@
     <Resource Include="Data\Fonts\KleeOne-SemiBold.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Data\images\Icons\buscar.svg" />
+    <Resource Include="Data\images\Icons\Carpeta sistema.svg" />
+    <Resource Include="Data\images\Icons\CMD.svg" />
+    <Resource Include="Data\images\Icons\config.svg" />
+    <Resource Include="Data\images\Icons\Copiar.svg" />
+    <Resource Include="Data\images\Icons\descarga.svg" />
+    <Resource Include="Data\images\Icons\Documento sistema.svg" />
+    <Resource Include="Data\images\Icons\Download.svg" />
+    <Resource Include="Data\images\Icons\Guaradar.svg" />
+    <Resource Include="Data\images\Icons\Home.svg" />
     <Resource Include="Data\images\Icons\Icono_Abrir.svg" />
     <Resource Include="Data\images\result_0 (6).png" />
   </ItemGroup>
