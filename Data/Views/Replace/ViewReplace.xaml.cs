@@ -31,8 +31,8 @@ namespace SeenExtractor.Data.Views.Replace
             {
                 Replace_Acentos(dialogos);
             }else ActionsSearch.Replace_Dialog(new Dictionary<string, string>() { { txtOriginal.Text, txtNuevo.Text } }, dialogos);
-            ((Search.Search)Data["Window"]).DialogResult = true;
-            ((Search.Search)Data["Window"]).Close();
+            //((Search.Search)Data["Window"]).DialogResult = true;
+            //((Search.Search)Data["Window"]).Close();
         }
 
 

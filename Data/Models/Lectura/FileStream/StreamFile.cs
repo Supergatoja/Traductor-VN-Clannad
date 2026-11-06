@@ -138,7 +138,7 @@ namespace SeenExtractor.Data.Models.Lectura.ReadFileStream
                                     if (nextByte == 0x5C)
                                     {
                                         if (ComillaEscapada = ((currentByte = (byte)file.ReadByte()) == 0x22))
-                                            stream.Add(nextByte, currentByte);
+                                            streamDialogo.Add(nextByte, currentByte);
                                         else
                                         {
                                             file.Position--;

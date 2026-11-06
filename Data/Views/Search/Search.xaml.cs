@@ -87,6 +87,5 @@ namespace SeenExtractor.Data.Views.Search
         {
             this.Close();
         }
-
     }
 }

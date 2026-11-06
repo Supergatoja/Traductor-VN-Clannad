@@ -1,9 +1,11 @@
 ﻿using SeenExtractor.Data.Models.Dialogos.Search;
 using SeenExtractor.Data.Models.Extenciones.ChangeEncoding.Strings;
-using SeenExtractor.Data.Models.Extenciones.Theme;
+using static SeenExtractor.Data.Models.Extenciones.Theme.ApplyTheme;
+using static SeenExtractor.EffectW11.DWM_SYSTEMBACKDROP_TYPE;
 using SeenExtractor.Data.Models.Files;
 using SeenExtractor.Data.Models.Lectura;
 using SeenExtractor.Data.Views.Search;
+using SeenExtractor.Data.Views.ViewTheme;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +22,7 @@ namespace SeenExtractor
         private List<LinesSeen> _NewLinesSeensRespaldo;
         private Dictionary<string[], List<LinesSeen>> _InfoFileRead;
         private Search search;
+        private ChangeTheme Themes;
         //public static readonly RoutedCommand routedCommand = new();
         public SearchDialogModel Searches;
         public MainWindow(ActionFiles actionFiles)
@@ -27,7 +30,7 @@ namespace SeenExtractor
             InitializeComponent();
             _ActionFiles = actionFiles;
             //this.SourceInitialized += (s, e) => WindowEfectAcrylic.EnableBlur(this);
-            this.SourceInitialized += (s, e) => ApplyTheme.Theme(this);
+            this.SourceInitialized += (s, e) => Theme(this, DWMSBT_TABBEDWINDOW);
         }
 
         //Boton Convertir a CP932 pero lo uso para sustitur.
@@ -380,6 +383,17 @@ namespace SeenExtractor
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void ChangeTheme_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Themes = new();
+            Themes.Show();
+        }
+
+        private void ChangeTheme_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
         }
 
         [GeneratedRegex(@"\*Suspiro\*", RegexOptions.Compiled)]

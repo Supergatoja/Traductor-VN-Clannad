@@ -37,6 +37,7 @@
         <!--<CommandBinding Command="{x:Static local:MainWindow.Open_Clean_Trans}" Executed="DialogosNuevosClean_Click" />-->
         <CommandBinding Command="ApplicationCommands.Replace" Executed="Replace_Executed" />
         <CommandBinding Command="{x:Static local:MainWindowHelpers.CleanTranslate}" Executed="CleanTranslate_Executed" CanExecute="CleanTranslate_CanExecute" />
+        <CommandBinding Command="{x:Static local:MainWindowHelpers.ChangeTheme}" Executed="ChangeTheme_Executed" CanExecute="ChangeTheme_CanExecute" />
     </Window.CommandBindings>
 
     <Window.InputBindings>
@@ -56,6 +57,8 @@
               Command="{x:Static local:MainWindowHelpers.Open_Clean_Trans}" />
         <KeyBinding Gesture="CTRL+SHIFT+N"
               Command="{x:Static local:MainWindowHelpers.CleanTranslate}" />
+        <KeyBinding Gesture="CTRL+SHIFT+T"
+                    Command="{x:Static local:MainWindowHelpers.ChangeTheme}"/>
     </Window.InputBindings>
 
     <Window.Resources>

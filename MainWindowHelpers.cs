@@ -1,8 +1,8 @@
-﻿using System.Drawing.Printing;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using static SeenExtractor.RefreshWindow;
 
 namespace SeenExtractor
 {
@@ -14,13 +14,14 @@ namespace SeenExtractor
         public static RoutedCommand Export { get; } = new RoutedCommand("Export", typeof(MainWindowHelpers));
         public static RoutedCommand Open_Clean_Trans { get; } = new RoutedCommand("Open_Clean_Trans", typeof(MainWindowHelpers));
         public static RoutedCommand CleanTranslate { get; } = new RoutedCommand("CleanTranslate", typeof(MainWindowHelpers));
+        public static RoutedCommand ChangeTheme { get; } = new RoutedCommand("ChangeTheme", typeof(MainWindowHelpers));
     }
 
-    public static class Effects
+    public static partial class Effects
     {
         // Win32 API para efecto Acrylic
-        [DllImport("user32.dll")]
-        private static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+        [LibraryImport("user32.dll")]
+        private static partial int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
         [StructLayout(LayoutKind.Sequential)]
         private struct WindowCompositionAttributeData
@@ -35,7 +36,7 @@ namespace SeenExtractor
             WCA_ACCENT_POLICY = 19
         }
 
-        private enum AccentState
+        public enum AccentState
         {
             ACCENT_DISABLED = 0,
             ACCENT_ENABLE_GRADIENT = 1,
@@ -53,15 +54,15 @@ namespace SeenExtractor
             public int AnimationId;
         }
 
-        public static void EnableBlur(Window mainWindow)
+        public static void ApplyTheme(Window mainWindow, AccentState theme)
         {
             var windowHelper = new WindowInteropHelper(mainWindow);
             var hwnd = windowHelper.Handle;
 
             var accent = new AccentPolicy
             {
-                AccentState = AccentState.ACCENT_ENABLE_ACRYLICBLURBEHIND,
-                GradientColor = unchecked((int)0x001F1F1F),
+                AccentState = theme,
+                GradientColor = unchecked((int)0x10A39EBC),
                 AnimationId = 4,
                 AccentFlags = 8
                 //GradientColor = unchecked((int)0xFFA39EBC)
@@ -80,13 +81,15 @@ namespace SeenExtractor
 
             SetWindowCompositionAttribute(hwnd, ref data);
             Marshal.FreeHGlobal(accentPtr);
+
+            SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, Position.SWP_NOMOVE | Position.SWP_NOSIZE | Position.SWP_NOZORDER | Position.SWP_FRAMECHANGED | Position.SWP_ASYNCWINDOWPOS | Position.SWP_DEFERERASE);
         }
 
 
 
     }
 
-    public static class EffectW11
+    public static partial class EffectW11
     {
         // Atributo para controlar el fondo del sistema (Introducido en Win 11 22H2)
         private const int DWMWA_SYSTEMBACKDROP_TYPE = 38;
@@ -100,8 +103,8 @@ namespace SeenExtractor
             DWMSBT_TABBEDWINDOW = 4     // Efecto MICA ALT
         }
 
-        [DllImport("dwmapi.dll")]
-        private static extern int DwmSetWindowAttribute(
+        [LibraryImport("dwmapi.dll")]
+        private static partial int DwmSetWindowAttribute(
             IntPtr hwnd,
             int dwAttribute,
             ref int pvAttribute,
@@ -117,26 +120,15 @@ namespace SeenExtractor
             public int cyBottomHeight;
         }
 
-        private struct Position
-        {
-            public const uint SWP_NOSIZE = 0x0001;
-            public const uint SWP_NOMOVE = 0x0002;
-            public const uint SWP_NOZORDER = 0x0004;
-            public const uint SWP_FRAMECHANGED = 0x0020;
-        }
-
-        [DllImport("dwmapi.dll")]
-        private static extern int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
-
-        [DllImport("user32.dll")]
-        private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+        [LibraryImport("dwmapi.dll")]
+        private static partial int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
 
         public static void ApplyMica(Window window, DWM_SYSTEMBACKDROP_TYPE backdropType)
         {
             var windowHandle = new WindowInteropHelper(window).Handle;
             var attributeValue = (int)backdropType;
 
-            MARGINS margins = new MARGINS { cxLeftWidth = -1, cxRightWidth = -1, cyTopHeight = -1, cyBottomHeight = -1 };
+            MARGINS margins = new() { cxLeftWidth = -1, cxRightWidth = -1, cyTopHeight = -1, cyBottomHeight = -1 };
             DwmExtendFrameIntoClientArea(windowHandle, ref margins);
             // Invocación nativa a DWM
             DwmSetWindowAttribute(
@@ -145,7 +137,37 @@ namespace SeenExtractor
                 ref attributeValue,
                 sizeof(int)
             );
-            SetWindowPos(windowHandle, IntPtr.Zero, 0, 0, 0, 0, Position.SWP_NOMOVE | Position.SWP_NOSIZE | Position.SWP_NOZORDER | Position.SWP_FRAMECHANGED);
+            SetWindowPos(windowHandle, IntPtr.Zero, 0, 0, 0, 0, Position.SWP_NOMOVE | Position.SWP_NOSIZE | Position.SWP_NOZORDER | Position.SWP_FRAMECHANGED | Position.SWP_ASYNCWINDOWPOS | Position.SWP_DEFERERASE);
+        }
+    }
+
+
+    public static partial class RefreshWindow
+    {
+        public struct Position
+        {
+            public const uint SWP_NOSIZE = 0x0001;
+            public const uint SWP_NOMOVE = 0x0002;
+            public const uint SWP_NOZORDER = 0x0004;
+            public const uint SWP_FRAMECHANGED = 0x0020;
+            public const uint SWP_ASYNCWINDOWPOS = 0x4000;
+            public const uint SWP_SHOWWINDOW = 0x0040;
+            public const uint SWP_DEFERERASE = 0x2000;
+
+        }
+
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+    }
+
+    public static class Resresh
+    {
+        public static void Refresh(this Window window)
+        {
+            window.Width++;
+            window.Width--;
         }
     }
 
