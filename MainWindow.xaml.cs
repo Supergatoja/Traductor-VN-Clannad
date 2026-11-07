@@ -25,12 +25,22 @@ namespace SeenExtractor
         private ChangeTheme Themes;
         //public static readonly RoutedCommand routedCommand = new();
         public SearchDialogModel Searches;
+        private bool Inicial = false;
         public MainWindow(ActionFiles actionFiles)
         {
             InitializeComponent();
             _ActionFiles = actionFiles;
             //this.SourceInitialized += (s, e) => WindowEfectAcrylic.EnableBlur(this);
-            this.SourceInitialized += (s, e) => Theme(this, DWMSBT_TABBEDWINDOW);
+            this.SourceInitialized += (s, e) => SetTheme();
+        }
+
+        private void SetTheme()
+        {
+            if (!Inicial)
+            {
+                Theme(this, DWMSBT_TABBEDWINDOW);
+                Inicial = true;
+            }
         }
 
         //Boton Convertir a CP932 pero lo uso para sustitur.

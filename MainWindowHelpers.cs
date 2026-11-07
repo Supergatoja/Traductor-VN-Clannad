@@ -33,7 +33,8 @@ namespace SeenExtractor
 
         private enum WindowCompositionAttribute
         {
-            WCA_ACCENT_POLICY = 19
+            WCA_ACCENT_POLICY = 19,
+            WCA_HOLOGRAPHIC = 23
         }
 
         public enum AccentState
@@ -49,12 +50,12 @@ namespace SeenExtractor
         private struct AccentPolicy
         {
             public AccentState AccentState;
-            public int AccentFlags;
-            public int GradientColor;
+            public uint AccentFlags;
+            public uint GradientColor;
             public int AnimationId;
         }
 
-        public static void ApplyTheme(Window mainWindow, AccentState theme)
+        public static void ApplyTheme(Window mainWindow, AccentState theme, uint color)
         {
             var windowHelper = new WindowInteropHelper(mainWindow);
             var hwnd = windowHelper.Handle;
@@ -62,9 +63,9 @@ namespace SeenExtractor
             var accent = new AccentPolicy
             {
                 AccentState = theme,
-                GradientColor = unchecked((int)0x10A39EBC),
-                AnimationId = 4,
-                AccentFlags = 8
+                GradientColor = color,
+                AnimationId = 0,
+                AccentFlags = 0x20 | 0x40 | 0x80 | 0x100
                 //GradientColor = unchecked((int)0xFFA39EBC)
             };
 
@@ -83,6 +84,9 @@ namespace SeenExtractor
             Marshal.FreeHGlobal(accentPtr);
 
             SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, Position.SWP_NOMOVE | Position.SWP_NOSIZE | Position.SWP_NOZORDER | Position.SWP_FRAMECHANGED | Position.SWP_ASYNCWINDOWPOS | Position.SWP_DEFERERASE);
+
+            mainWindow.Width++;
+            mainWindow.Width--;
         }
 
 
@@ -138,6 +142,9 @@ namespace SeenExtractor
                 sizeof(int)
             );
             SetWindowPos(windowHandle, IntPtr.Zero, 0, 0, 0, 0, Position.SWP_NOMOVE | Position.SWP_NOSIZE | Position.SWP_NOZORDER | Position.SWP_FRAMECHANGED | Position.SWP_ASYNCWINDOWPOS | Position.SWP_DEFERERASE);
+
+            window.Width++;
+            window.Width--;
         }
     }
 
@@ -160,15 +167,6 @@ namespace SeenExtractor
         [return: MarshalAs(UnmanagedType.Bool)]
         public static partial bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
-    }
-
-    public static class Resresh
-    {
-        public static void Refresh(this Window window)
-        {
-            window.Width++;
-            window.Width--;
-        }
     }
 
 }

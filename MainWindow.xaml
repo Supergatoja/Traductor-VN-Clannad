@@ -18,13 +18,6 @@
         FontSize="16"
         >
 
-    <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="30" 
-                      ResizeBorderThickness="6" 
-                      GlassFrameThickness="0" 
-                      UseAeroCaptionButtons="True"/>
-    </WindowChrome.WindowChrome>
-
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Find" Executed="CommandBinding_Executed" CanExecute="CommandBinding_CanExecute"/>
         <CommandBinding Command="{x:Static local:MainWindowHelpers.Next}" Executed="NextDialog" CanExecute="NextDialog_CanExecute"/>
@@ -90,19 +83,12 @@
     </Window.Resources>
 
     <Border 
-            Background="#013F3F3F"
-            BorderBrush="#801F1F1F"
+            Background="#01000000"
+            BorderBrush="Transparent"
             BorderThickness="3"
             CornerRadius="6">
 
-        <Border.Effect>
-            <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="5" Opacity="0.3"/>
-        </Border.Effect>
-
-
-
-        <Grid RowDefinitions="30,*,11*,30">
-            <Grid.RowSpan>5</Grid.RowSpan>
+        <Grid Background="Transparent" RowDefinitions="30,*,11*,30">
 
             <Grid Grid.Row="0" Background="Transparent" MouseLeftButtonDown="CustomTitleBar_MouseDown">
                 <Grid.ColumnDefinitions>
@@ -132,7 +118,7 @@
                 </StackPanel>
             </Grid>
 
-            <ToolBarTray Grid.Row="1">
+            <ToolBarTray Background="Transparent" Grid.Row="1">
                 <ToolBar Band="1" BandIndex="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <Button Click="Button_Click" >Convertir a CP932</Button>
                     <Separator/>
@@ -150,14 +136,14 @@
                 </ToolBar>
             </ToolBarTray>
 
-            <Grid Grid.Row="2" VerticalAlignment="Stretch">
+            <Grid Background="Transparent" Grid.Row="2" VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" x:Name="tamañoOriginal"></ColumnDefinition>
                     <ColumnDefinition Width="0" x:Name="tamañoNuevo"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
 
-                <DataGrid x:Name="OriginalDialogs" Grid.Column="0" SelectionChanged="LineaSelectOriginal" ClipToBounds="True" VerticalAlignment="Stretch" >
+                <DataGrid Background="Transparent" x:Name="OriginalDialogs" Grid.Column="0" SelectionChanged="LineaSelectOriginal" ClipToBounds="True" VerticalAlignment="Stretch" >
 
                     <DataGrid.Columns >
 
@@ -180,7 +166,7 @@
                 </DataGrid>
 
 
-                <DataGrid x:Name="NuevosDialogs" Grid.Column="1" SelectionChanged="LineaSelectNuevo" Visibility="Collapsed" >
+                <DataGrid Background="Transparent" x:Name="NuevosDialogs" Grid.Column="1" SelectionChanged="LineaSelectNuevo" Visibility="Collapsed" >
                     <DataGrid.Columns >
 
                         <DataGridTextColumn Header="Línea" Binding="{Binding Line}" IsReadOnly="True" Width="Auto" />
@@ -243,7 +229,7 @@
 
             </Grid>
 
-            <StatusBar x:Name="Status" Grid.Row="3">
+            <StatusBar Background="Transparent" x:Name="Status" Grid.Row="3">
                 <StatusBarItem>
                     <TextBlock Text="Extrayendo"/>
                 </StatusBarItem>

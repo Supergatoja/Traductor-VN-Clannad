@@ -7,14 +7,13 @@ namespace SeenExtractor.Data.Models.Extenciones.Theme
 {
     static class ApplyTheme
     {
-        public static void Theme(Window window, object theme)
+        public static void Theme(Window window, object theme, uint color = 0x801F1F1F)
         {
             if (theme is AccentState state)
-                ApplyTheme(window, state);
+                ApplyTheme(window, state, color);
             else
                 if (theme is DWM_SYSTEMBACKDROP_TYPE state2)
                     ApplyMica(window, state2);
-            window.Refresh();
             /*if (OSBuild >= 22000)
                 ApplyMica(window, DWM_SYSTEMBACKDROP_TYPE.DWMSBT_TABBEDWINDOW);
             else
