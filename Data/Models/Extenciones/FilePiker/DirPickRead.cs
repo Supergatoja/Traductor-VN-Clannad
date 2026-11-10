@@ -6,14 +6,14 @@ namespace SeenExtractor.Data.Models.Extenciones.FilePiker
     {
         public static bool? ReadDir(this OpenFolderDialog openFolderDialog)
         {
-            openFolderDialog.InitialDirectory = "E:\\Seen Clannad\\Archivos Originales";
-            openFolderDialog.DefaultDirectory = "E:\\Seen Clannad\\Archivos Originales";
+            openFolderDialog.InitialDirectory = DirOpenOriginal;
+            openFolderDialog.DefaultDirectory = DirOpenOriginal;
             return openFolderDialog.ShowDialog();
         }
         public static bool? SaveDir(this OpenFolderDialog openFolderDialog)
         {
-            openFolderDialog.InitialDirectory = "E:\\Seen Clannad\\Generacion";
-            openFolderDialog.DefaultDirectory = "E:\\Seen Clannad\\Generacion";
+            openFolderDialog.InitialDirectory = DirOpenGeneracio;
+            openFolderDialog.DefaultDirectory = DirOpenGeneracion;
             return openFolderDialog.ShowDialog();
         }
     }
