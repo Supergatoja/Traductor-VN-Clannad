@@ -37,9 +37,24 @@ namespace SeenExtractor.Data.Views.Search
                     result = ActionsSearch.Search_DialogS(valor.Text, (List<LinesSeen>)Data["Dialogos Originales"], (List<LinesSeen>)Data["Dialogos Nuevos"]);
                 else result = ActionsSearch.Search_Dialog(valor.Text, (List<LinesSeen>)Data["Dialogos Originales"], (List<LinesSeen>)Data["Dialogos Nuevos"]);
             }
-            ((Search)Data["Window"]).DialogResult = true;
-            ((Search)Data["Window"])._Dialogos = result;
-            ((Search)Data["Window"]).Close();
+
+            if (result.Searches.Count > 0)
+            {
+                int matchIndex = result.GetMatch();
+
+                var searchWindow = (Search)Data["Window"];
+                if (searchWindow.Owner is MainWindow mainWindow)
+                {
+                    mainWindow.OriginalDialogs.SelectedIndex = matchIndex;
+                    mainWindow.OriginalDialogs.ScrollIntoView(mainWindow.OriginalDialogs.SelectedItem);
+                    mainWindow.Searches = result;
+                    mainWindow.Focus();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Sin Coincidencias", "Busqueda", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)

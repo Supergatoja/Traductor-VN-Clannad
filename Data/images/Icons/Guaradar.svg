@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 64 64"
+     fill="none"
+     stroke="currentColor"
+     stroke-width="2.5"
+     stroke-linecap="round"
+     stroke-linejoin="round">
+
+  <!--
+    Michi Icons
+    Icon: Save
+    Style: Outline
+    Expression: Satisfied
+    Version: 1.0.0
+    License: MIT
+  -->
+
+
+  <!-- Cuerpo del disquete / cabeza del gato -->
+  <path d="
+    M15 10
+
+    H43
+
+    L51 18
+
+    V49
+
+    C51 52
+    49 54
+    46 54
+
+    H18
+
+    C15 54
+    13 52
+    13 49
+
+    V14
+
+    C13 12
+    14 10
+    15 10
+  "/>
+
+
+  <!-- Orejas integradas -->
+  <path d="
+    M17 10
+    L24 18
+    H17
+    Z
+  "/>
+
+  <path d="
+    M47 10
+    L40 18
+    H47
+    Z
+  "/>
+
+
+  <!-- Zona superior del disco -->
+  <path d="
+    M22 10
+    V22
+    H42
+    V10
+  "/>
+
+
+  <!-- Etiqueta inferior -->
+  <rect x="22" y="32" width="20" height="14" rx="3"/>
+
+
+  <!-- Ojos satisfechos -->
+  <path d="
+    M23 28
+    C25 26.5
+    27 26.5
+    29 28
+  "/>
+
+  <path d="
+    M35 28
+    C37 26.5
+    39 26.5
+    41 28
+  "/>
+
+
+  <!-- Nariz -->
+  <path d="
+    M32 31
+    L29.8 33.5
+    H34.2
+    Z
+  "/>
+
+
+  <!-- Sonrisa pequeña -->
+  <path d="
+    M27 35
+    C30 38
+    34 38
+    37 35
+  "/>
+
+
+  <!-- Pequeños bigotes -->
+  <path d="M24 33 H18"/>
+  <path d="M40 33 H46"/>
+
+
+</svg>

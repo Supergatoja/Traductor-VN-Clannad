@@ -1,8 +1,5 @@
 ﻿using SeenExtractor.Data.Models.Dialogos.Search;
-using SeenExtractor.Data.Models.Escritura;
-using SeenExtractor.Data.Models.Files;
 using SeenExtractor.Data.Models.Lectura;
-using SeenExtractor.Data.Models.Sustitución;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -34,8 +31,8 @@ namespace SeenExtractor.Data.Views.Replace
             {
                 Replace_Acentos(dialogos);
             }else ActionsSearch.Replace_Dialog(new Dictionary<string, string>() { { txtOriginal.Text, txtNuevo.Text } }, dialogos);
-            ((Search.Search)Data["Window"]).DialogResult = true;
-            ((Search.Search)Data["Window"]).Close();
+            //((Search.Search)Data["Window"]).DialogResult = true;
+            //((Search.Search)Data["Window"]).Close();
         }
 
 

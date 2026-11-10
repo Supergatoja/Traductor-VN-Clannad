@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 64 64"
+     fill="none"
+     stroke="currentColor"
+     stroke-width="2.5"
+     stroke-linecap="round"
+     stroke-linejoin="round">
+
+  <!--
+    Michi Icons
+    Icon: Delete
+    Style: Outline
+    Expression: Grumpy
+    Version: 1.0.0
+    License: MIT
+  -->
+
+
+  <!-- Orejas integradas en la tapa -->
+  <path d="
+    M18 20
+    L24 12
+    L30 20
+  "/>
+
+  <path d="
+    M34 20
+    L40 12
+    L46 20
+  "/>
+
+
+  <!-- Tapa de papelera -->
+  <path d="
+    M12 22
+    H52
+  "/>
+
+  <path d="
+    M22 22
+    V18
+
+    H42
+
+    V22
+  "/>
+
+
+  <!-- Cuerpo de papelera -->
+  <path d="
+    M17 22
+
+    L20 51
+
+    C20.2 53
+    22 54
+    24 54
+
+    H40
+
+    C42 54
+    43.8 53
+    44 51
+
+    L47 22
+  "/>
+
+
+  <!-- Líneas de papelera -->
+  <path d="M27 30 V47"/>
+  <path d="M37 30 V47"/>
+
+
+  <!-- Ojos gruñones -->
+  <path d="
+    M23 35
+    L29 33
+  "/>
+
+  <path d="
+    M35 33
+    L41 35
+  "/>
+
+
+  <!-- Nariz -->
+  <path d="
+    M32 38
+    L30 40.5
+    H34
+    Z
+  "/>
+
+
+  <!-- Boca molesta -->
+  <path d="
+    M27 44
+    C30 42
+    34 42
+    37 44
+  "/>
+
+
+  <!-- Bigotes -->
+  <path d="M25 39 H18"/>
+  <path d="M39 39 H46"/>
+
+
+</svg>

@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 64 64"
+     fill="none"
+     stroke="currentColor"
+     stroke-width="2.5"
+     stroke-linecap="round"
+     stroke-linejoin="round">
+
+  <!--
+    Michi Icons
+    Icon: Home
+    Style: Outline
+    Expression: Calm
+    Version: 1.0.0
+    License: MIT
+  -->
+
+
+  <!-- Casa / cabeza felina -->
+  <path d="
+    M8 29
+
+    L32 10
+
+    L56 29
+
+    V51
+
+    C56 53
+    54 54
+    52 54
+
+    H12
+
+    C10 54
+    8 53
+    8 51
+
+    Z
+  "/>
+
+
+  <!-- Orejas integradas en el techo -->
+  <path d="
+    M18 21
+    L23 14
+    L29 17
+  "/>
+
+  <path d="
+    M35 17
+    L41 14
+    L46 21
+  "/>
+
+
+  <!-- Puerta -->
+  <path d="
+    M25 54
+    V41
+
+    C25 38
+    28 36
+    32 36
+
+    C36 36
+    39 38
+    39 41
+
+    V54
+  "/>
+
+
+  <!-- Ojos tranquilos -->
+  <path d="
+    M22 32
+    C24 30.5
+    26 30.5
+    28 32
+  "/>
+
+  <path d="
+    M36 32
+    C38 30.5
+    40 30.5
+    42 32
+  "/>
+
+
+  <!-- Nariz -->
+  <path d="
+    M32 35
+    L29.8 37.5
+    H34.2
+    Z
+  "/>
+
+
+  <!-- Boca relajada -->
+  <path d="
+    M28 40
+    C30 42
+    34 42
+    36 40
+  "/>
+
+
+  <!-- Bigotes -->
+  <path d="M23 36 H15"/>
+  <path d="M41 36 H49"/>
+
+
+  <!-- Chimenea pequeña -->
+  <path d="
+    M45 20
+    V13
+    H50
+    V24
+  "/>
+
+
+</svg>

@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 64 64"
+     fill="none"
+     stroke="currentColor"
+     stroke-width="2.5"
+     stroke-linecap="round"
+     stroke-linejoin="round">
+
+  <!--
+    Michi Icons
+    Icon: Upload
+    Style: Outline
+    Expression: Determined
+    Version: 1.0.0
+    License: MIT
+  -->
+
+
+  <!-- Orejas de la caja -->
+  <path d="
+    M20 34
+    L25 26
+    L31 34
+  "/>
+
+  <path d="
+    M33 34
+    L39 26
+    L44 34
+  "/>
+
+
+  <!-- Caja / origen -->
+  <path d="
+    M14 30
+
+    H50
+
+    V51
+
+    C50 53
+    48 54
+    46 54
+
+    H18
+
+    C16 54
+    14 53
+    14 51
+
+    Z
+  "/>
+
+
+  <!-- Línea superior -->
+  <path d="
+    M14 36
+    H50
+  "/>
+
+
+  <!-- Flecha de subida -->
+  <path d="
+    M32 45
+    V12
+  "/>
+
+  <path d="
+    M23 21
+    L32 12
+    L41 21
+  "/>
+
+
+  <!-- Ojos decididos -->
+  <path d="
+    M24 43
+    L30 41
+  "/>
+
+  <path d="
+    M34 41
+    L40 43
+  "/>
+
+
+  <!-- Nariz -->
+  <path d="
+    M32 45
+    L30 47.5
+    H34
+    Z
+  "/>
+
+
+  <!-- Boca firme -->
+  <path d="
+    M27 50
+    H37
+  "/>
+
+
+  <!-- Bigotes -->
+  <path d="M25 46 H18"/>
+  <path d="M39 46 H46"/>
+
+
+</svg>
