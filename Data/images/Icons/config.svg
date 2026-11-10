@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 64 64"
+     fill="none"
+     stroke="currentColor"
+     stroke-width="2.5"
+     stroke-linecap="round"
+     stroke-linejoin="round">
+
+  <!--
+    Michi Icons
+    Icon: Settings
+    Style: Outline
+    Expression: Focused
+    Version: 1.0.0
+    License: MIT
+  -->
+
+
+  <!-- Engranaje principal -->
+  <path d="
+    M27 8
+    H37
+
+    L39 15
+
+    C41 16
+    43 17
+    45 19
+
+    L52 17
+    L57 26
+
+    L51 31
+
+    C51.5 33
+    51.5 35
+    51 37
+
+    L57 42
+    L52 51
+
+    L45 49
+
+    C43 51
+    41 52
+    39 53
+
+    L37 60
+
+    H27
+
+    L25 53
+
+    C23 52
+    21 51
+    19 49
+
+    L12 51
+
+    L7 42
+
+    L13 37
+
+    C12.5 35
+    12.5 33
+    13 31
+
+    L7 26
+
+    L12 17
+
+    L19 19
+
+    C21 17
+    23 16
+    25 15
+
+    Z
+  "/>
+
+
+  <!-- Orejas integradas -->
+  <path d="
+    M22 16
+    L26 9
+    L30 16
+  "/>
+
+  <path d="
+    M34 16
+    L38 9
+    L42 16
+  "/>
+
+
+  <!-- Centro del engrane -->
+  <circle cx="32" cy="34" r="11"/>
+
+
+  <!-- Ojos concentrados -->
+  <path d="
+    M25 32
+    H29
+  "/>
+
+  <path d="
+    M35 32
+    H39
+  "/>
+
+
+  <!-- Nariz -->
+  <path d="
+    M32 35
+    L30 37.5
+    H34
+    Z
+  "/>
+
+
+  <!-- Boca pensativa -->
+  <path d="
+    M28 41
+    C31 39.5
+    33 39.5
+    36 41
+  "/>
+
+
+  <!-- Bigotes -->
+  <path d="M23 36 H17"/>
+  <path d="M41 36 H47"/>
+
+
+</svg>

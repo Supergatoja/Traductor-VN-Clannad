@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 64 64"
+     fill="none"
+     stroke="currentColor"
+     stroke-width="2.5"
+     stroke-linecap="round"
+     stroke-linejoin="round">
+
+  <!--
+    Michi Icons
+    Icon: Folder
+    Style: Outline
+    Expression: Neutral
+    Version: 1.0.0
+    License: MIT
+  -->
+
+
+  <!-- Cabeza / carpeta del gato -->
+  <path d="
+    M10 22
+
+    H23
+    L27 17
+
+    L32 11
+    L37 17
+
+    L41 11
+    L46 22
+
+    H54
+
+    C56 22 57 24
+    57 26
+
+    V45
+
+    C57 49
+    54 52
+    50 52
+
+    H14
+
+    C10 52
+    7 49
+    7 45
+
+    V26
+
+    C7 24
+    8 22
+    10 22
+  "/>
+
+
+  <!-- Separación superior de carpeta -->
+  <path d="
+    M7 30
+    H57
+  "/>
+
+
+  <!-- Ojos neutrales -->
+  <circle cx="24" cy="36" r="1.5"/>
+  <circle cx="40" cy="36" r="1.5"/>
+
+
+  <!-- Nariz -->
+  <path d="
+    M32 39
+    L29.5 42
+    H34.5
+    Z
+  "/>
+
+
+  <!-- Boca neutra -->
+  <path d="
+    M32 42
+    V44
+  "/>
+
+
+  <!-- Bigotes izquierdos -->
+  <path d="M21 39 H12"/>
+  <path d="M21 43 H11"/>
+
+
+  <!-- Bigotes derechos -->
+  <path d="M43 39 H52"/>
+  <path d="M43 43 H53"/>
+
+
+</svg>

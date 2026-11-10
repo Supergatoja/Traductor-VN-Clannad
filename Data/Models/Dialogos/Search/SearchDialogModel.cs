@@ -2,7 +2,7 @@
 {
     public class SearchDialogModel
     {
-        public List<SearchDialogResult> Searches { get; set; }
+        public List<SearchDialogResult>? Searches { get; set; }
         private int currentItem = 0;
         public int CurrentItem
         {
@@ -17,8 +17,8 @@
         public bool Before { get; set; }
         public void Continua(int value)
         {
-            Next = currentItem < Searches.Count - 1 ? true : false;
-            Before = currentItem > 0 ? true : false;
+            Next = currentItem < Searches.Count - 1;
+            Before = currentItem > 0;
         }
 
         internal int GetMatch()

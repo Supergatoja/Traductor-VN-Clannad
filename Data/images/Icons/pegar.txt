@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 64 64"
+     fill="none"
+     stroke="currentColor"
+     stroke-width="2.5"
+     stroke-linecap="round"
+     stroke-linejoin="round">
+
+  <!--
+    Michi Icons
+    Icon: Paste
+    Style: Outline
+    Expression: Happy
+    Version: 1.0.0
+    License: MIT
+  -->
+
+
+  <!-- Portapapeles -->
+  <path d="
+    M18 18
+
+    H46
+
+    C48 18
+    50 20
+    50 22
+
+    V50
+
+    C50 52
+    48 54
+    46 54
+
+    H18
+
+    C16 54
+    14 52
+    14 50
+
+    V22
+
+    C14 20
+    16 18
+    18 18
+  "/>
+
+
+  <!-- Pinza superior con orejas -->
+  <path d="
+    M25 18
+
+    V14
+
+    C25 11
+    28 9
+    32 9
+
+    C36 9
+    39 11
+    39 14
+
+    V18
+  "/>
+
+
+  <!-- Orejas del clip -->
+  <path d="
+    M26 12
+    L29 8
+    L31 12
+  "/>
+
+  <path d="
+    M33 12
+    L35 8
+    L38 12
+  "/>
+
+
+  <!-- Hoja interior -->
+  <path d="
+    M24 26
+
+    H40
+
+    L44 30
+
+    V45
+
+    C44 47
+    42 48
+    40 48
+
+    H24
+
+    C22 48
+    20 46
+    20 44
+
+    V30
+
+    C20 28
+    22 26
+    24 26
+  "/>
+
+
+  <!-- Esquina doblada -->
+  <path d="
+    M40 26
+    V30
+    H44
+  "/>
+
+
+  <!-- Ojos felices -->
+  <path d="
+    M25 34
+    C27 32
+    29 32
+    31 34
+  "/>
+
+  <path d="
+    M33 34
+    C35 32
+    37 32
+    39 34
+  "/>
+
+
+  <!-- Nariz -->
+  <path d="
+    M32 36
+    L30 38.5
+    H34
+    Z
+  "/>
+
+
+  <!-- Sonrisa -->
+  <path d="
+    M27 40
+    C30 43
+    34 43
+    37 40
+  "/>
+
+
+  <!-- Bigotes -->
+  <path d="M26 38 H21"/>
+  <path d="M38 38 H43"/>
+
+
+  <!-- Líneas de documento -->
+  <path d="M27 46 H37"/>
+
+
+</svg>

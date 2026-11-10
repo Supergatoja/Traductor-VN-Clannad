@@ -1,12 +1,12 @@
 ﻿
 namespace SeenExtractor.Data.Characters
 {
-    public class Get_Characters
+    public static class Get_Characters
     {
-        public Dictionary<string,string> GetCharacteres()
-        {
-            return new Dictionary<string, string>()
-            { 
+        public static Dictionary<string, string> GetCharacteres =>
+
+            new()
+            {
                 { "【智代】",  "【智代】 (Tomoyo)"},
                 { "【美佐枝】",  "【美佐枝】 (Misae)"},
                 { "【春原】",  "【春原】 (Sunohara)"},
@@ -22,8 +22,8 @@ namespace SeenExtractor.Data.Characters
                 { "【五十嵐】",  "【五十嵐】 (Igarashi)"},
                 { "【僕】",  "【僕】 (Yo, I, Boku)"},
                 { "【志麻】",  "【志麻】 (Shima)"},
-                { "【女生徒Ａ】",  "【女生徒Ａ】 (Estudiante A】 (mujer))"},
-                { "【女生徒Ｂ】",  "【女生徒Ｂ】 (Estudiante B】 (mujer))"},
+                { "【女生徒Ａ】",  "【女生徒Ａ】 (Estudiante A (mujer))"},
+                { "【女生徒Ｂ】",  "【女生徒Ｂ】 (Estudiante B (mujer))"},
                 { "【サキ】",  "【サキ】 (Saki)"},
                 { "【ユキ】",  "【ユキ】 (Yuki)"},
                 { "【相手】",  "【相手】 (Pareja, Aite, ???)"},
@@ -86,6 +86,5 @@ namespace SeenExtractor.Data.Characters
                 { "【古河・父】",  "【古河・父】 (Papa de Furukawa)"},
                 { "【】",  "【Monologo ó Concatenacion"}
             };
-        }
     }
 }

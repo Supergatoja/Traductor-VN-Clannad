@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 64 64"
+     fill="none"
+     stroke="currentColor"
+     stroke-width="2.5"
+     stroke-linecap="round"
+     stroke-linejoin="round">
+
+  <!--
+    Michi Icons
+    Icon: Refresh
+    Style: Outline
+    Expression: Patient
+    Version: 1.0.0
+    License: MIT
+  -->
+
+
+  <!-- Ciclo exterior / cola -->
+  <path d="
+    M50 24
+
+    C46 15
+    37 10
+    28 12
+
+    C18 14
+    11 22
+    11 32
+
+    C11 44
+    20 53
+    32 53
+
+    C42 53
+    50 47
+    53 38
+  "/>
+
+
+  <!-- Flecha superior -->
+  <path d="
+    M50 15
+    V24
+    H41
+  "/>
+
+
+  <!-- Flecha inferior -->
+  <path d="
+    M14 49
+    V40
+    H23
+  "/>
+
+
+  <!-- Cabeza del gato central -->
+  <path d="
+    M24 31
+
+    L22 25
+    L28 28
+
+    C30 27
+    34 27
+    36 28
+
+    L42 25
+    L40 31
+
+    C40 38
+    36 42
+    32 42
+
+    C28 42
+    24 38
+    24 31
+
+    Z
+  "/>
+
+
+  <!-- Ojos pacientes -->
+  <path d="
+    M27 34
+    C28.5 33
+    30 33
+    31 34
+  "/>
+
+  <path d="
+    M33 34
+    C34 33
+    35.5 33
+    37 34
+  "/>
+
+
+  <!-- Nariz -->
+  <path d="
+    M32 36
+    L30 38.5
+    H34
+    Z
+  "/>
+
+
+  <!-- Boca tranquila -->
+  <path d="
+    M29 40
+    C31 41
+    33 41
+    35 40
+  "/>
+
+
+  <!-- Bigotes -->
+  <path d="M26 37 H20"/>
+  <path d="M38 37 H44"/>
+
+
+</svg>

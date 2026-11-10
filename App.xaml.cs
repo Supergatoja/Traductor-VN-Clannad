@@ -11,15 +11,13 @@ namespace SeenExtractor
 
     public partial class App : Application
     {
-        private IHost _host;
+        private IHost? _host;
 
         private async void Application_Startup(object sender, StartupEventArgs e)
         {
             var builder = Host.CreateApplicationBuilder();
-            foreach (var inyeccion in new Inyeccion().GetList)
-            {
-                builder.Services.AddSingleton(inyeccion);
-            }
+
+            builder.Servicios();
 
             _host = builder.Build();
 
