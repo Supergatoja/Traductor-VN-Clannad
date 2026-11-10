@@ -11,7 +11,7 @@ namespace SeenExtractor
 
     public partial class App : Application
     {
-        private IHost _host;
+        private IHost? _host;
 
         private async void Application_Startup(object sender, StartupEventArgs e)
         {

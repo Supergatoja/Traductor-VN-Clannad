@@ -31,7 +31,7 @@ namespace SeenExtractor
             InitializeComponent();
             _ActionFiles = actionFiles;
             //this.SourceInitialized += (s, e) => WindowEfectAcrylic.EnableBlur(this);
-            this.SourceInitialized += (s, e) => SetTheme();
+            //this.SourceInitialized += (s, e) => SetTheme();
         }
 
         private void SetTheme()
@@ -408,5 +408,10 @@ namespace SeenExtractor
 
         [GeneratedRegex(@"\*Suspiro\*", RegexOptions.Compiled)]
         private static partial Regex Suspiro();
+
+        private void Window_GotFocus(object sender, RoutedEventArgs e)
+        {
+            //Actualizar el fondo Blur y Acrylico cuando vuelve a tener el Foco la ventana.
+        }
     }
 }

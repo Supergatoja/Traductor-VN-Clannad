@@ -30,6 +30,7 @@ namespace SeenExtractor.Data.Views.ViewTheme
                     else
                         if (OSBuild >= 7600 && OSBuild <= 9600)
                             cmbThemes.ItemsSource = ThemesW10;
+                cmbThemes.SelectedIndex = 0;
             }
             catch (Exception e)
             {
@@ -47,6 +48,14 @@ namespace SeenExtractor.Data.Views.ViewTheme
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
+            foreach(var win in App.Current.Windows)
+            {
+                if (win is ChangeTheme changeTheme)
+                {
+                    changeTheme.Close();
+                    break;
+                }
+            }
         }
 
         private void PickColor_Click(object sender, RoutedEventArgs e)
@@ -72,14 +81,23 @@ namespace SeenExtractor.Data.Views.ViewTheme
             ColorPreviewBox.Background = new SolidColorBrush(selectedColor);
 
             txtHex.Text = selectedColor.ToString();
+            AplicarTheme_Click(null, null);
         }
 
         private void cmbThemes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cmbThemes.SelectedIndex != 0 && OSBuild <= 22000)
+            if (OSBuild <= 22000)
             {
-                PickColor.IsEnabled = true;
-                PickColor.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+                if (cmbThemes.SelectedIndex != 0 && cmbThemes.SelectedIndex != 2)
+                {
+                    PickColor.IsEnabled = true;
+                    PickColor.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+                }
+                else
+                {
+                    PickColor.IsEnabled = false;
+                    PickColor.Background = new SolidColorBrush(Color.FromArgb(20, 31, 31, 31));
+                }
             }
             else
             {

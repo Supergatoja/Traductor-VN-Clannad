@@ -10,12 +10,12 @@
         mc:Ignorable="d"
         Title="Read-Write Seen" Height="960" Width="1280"
         FontFamily="{StaticResource Klee_One_SB}"
-        Background="Transparent"
         WindowStyle="None"
         AllowsTransparency="True"
         FontWeight="UltraBlack"
         FontStyle="Italic"
         FontSize="16"
+        GotFocus="Window_GotFocus"
         >
 
     <Window.CommandBindings>

@@ -1,7 +1,10 @@
-﻿using System.Runtime.InteropServices;
+﻿using SeenExtractor.Data.Views.ViewTheme;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
+using static SeenExtractor.Effects;
 using static SeenExtractor.RefreshWindow;
 
 namespace SeenExtractor
@@ -57,6 +60,8 @@ namespace SeenExtractor
 
         public static void ApplyTheme(Window mainWindow, AccentState theme, uint color)
         {
+            mainWindow.Background = theme != AccentState.ACCENT_DISABLED ? new SolidColorBrush(Color.FromArgb(0, 0, 0, 0)) : new SolidColorBrush(Color.FromArgb(255, 32, 32, 32)); //#FF202020
+
             var windowHelper = new WindowInteropHelper(mainWindow);
             var hwnd = windowHelper.Handle;
 
@@ -129,6 +134,8 @@ namespace SeenExtractor
 
         public static void ApplyMica(Window window, DWM_SYSTEMBACKDROP_TYPE backdropType)
         {
+            window.Background = backdropType != DWM_SYSTEMBACKDROP_TYPE.DWMSBT_AUTO || backdropType != DWM_SYSTEMBACKDROP_TYPE.DWMSBT_NONE  ? new SolidColorBrush(Color.FromArgb(0, 0, 0, 0)) : new SolidColorBrush(Color.FromArgb(255, 32, 32, 32)); //#FF202020
+
             var windowHandle = new WindowInteropHelper(window).Handle;
             var attributeValue = (int)backdropType;
 
