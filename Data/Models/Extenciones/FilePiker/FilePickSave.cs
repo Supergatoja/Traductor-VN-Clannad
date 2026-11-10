@@ -6,8 +6,8 @@ namespace SeenExtractor.Data.Models.Extenciones.FilePiker
     {
         public static bool? Save(this SaveFileDialog saveFileDialog)
         {
-            saveFileDialog.InitialDirectory = "E:\\Seen Clannad\\Traduccion";
-            saveFileDialog.DefaultDirectory = "E:\\Seen Clannad\\Traduccion";
+            saveFileDialog.InitialDirectory = DirOpenTraduccion;
+            saveFileDialog.DefaultDirectory = DirOpenTraduccion;
             return saveFileDialog.ShowDialog();
         }
     }
