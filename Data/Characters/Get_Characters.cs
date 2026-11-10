@@ -3,10 +3,10 @@ namespace SeenExtractor.Data.Characters
 {
     public static class Get_Characters
     {
-        public static Dictionary<string,string> GetCharacteres()
-        {
-            return new Dictionary<string, string>()
-            { 
+        public static Dictionary<string, string> GetCharacteres =>
+
+            new()
+            {
                 { "【智代】",  "【智代】 (Tomoyo)"},
                 { "【美佐枝】",  "【美佐枝】 (Misae)"},
                 { "【春原】",  "【春原】 (Sunohara)"},
@@ -86,6 +86,5 @@ namespace SeenExtractor.Data.Characters
                 { "【古河・父】",  "【古河・父】 (Papa de Furukawa)"},
                 { "【】",  "【Monologo ó Concatenacion"}
             };
-        }
     }
 }

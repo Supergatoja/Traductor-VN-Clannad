@@ -82,12 +82,19 @@ namespace SeenExtractor.Data.Models.Dialogos.Search
 
         internal static List<LinesSeen> Mayusculas(List<LinesSeen> linesSeens)
         {
-            List<LinesSeen> list = [];
-            foreach (var line in linesSeens)
+            try
             {
-                list.Add(new LinesSeen() { Line = line.Line, Character = line.Character.ToUpper() , Dialog = line.Dialog.ToUpper(), Length = line.Length });
+                List<LinesSeen> list = [];
+                foreach (var line in linesSeens)
+                {
+                    list.Add(new LinesSeen() { Line = line.Line, Character = line.Character.ToUpper(), Dialog = line.Dialog.ToUpper(), Length = line.Length });
+                }
+                return list;
             }
-            return list;
+            catch (Exception e)
+            {
+                return null;
+            }
         } 
 
     }

@@ -134,7 +134,7 @@ namespace SeenExtractor
 
         public static void ApplyMica(Window window, DWM_SYSTEMBACKDROP_TYPE backdropType)
         {
-            window.Background = backdropType != DWM_SYSTEMBACKDROP_TYPE.DWMSBT_AUTO || backdropType != DWM_SYSTEMBACKDROP_TYPE.DWMSBT_NONE  ? new SolidColorBrush(Color.FromArgb(0, 0, 0, 0)) : new SolidColorBrush(Color.FromArgb(255, 32, 32, 32)); //#FF202020
+            window.Background = backdropType != DWM_SYSTEMBACKDROP_TYPE.DWMSBT_AUTO && backdropType != DWM_SYSTEMBACKDROP_TYPE.DWMSBT_NONE  ? new SolidColorBrush(Color.FromArgb(0, 0, 0, 0)) : new SolidColorBrush(Color.FromArgb(255, 32, 32, 32)); //#FF202020
 
             var windowHandle = new WindowInteropHelper(window).Handle;
             var attributeValue = (int)backdropType;

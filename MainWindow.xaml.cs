@@ -74,18 +74,25 @@ namespace SeenExtractor
                 if (_NewLinesSeens != null)
                 {
                     _InfoFileRead = await _ActionFiles.LeerDialogos();
-                    _LinesSeens = _InfoFileRead.Values.First();
-                    NuevosDialogs.ItemsSource = _NewLinesSeens;
-                    OriginalDialogs.ItemsSource = _LinesSeens;
-                    DataDialogNew();
-                    ProgressBar.Visibility = Visibility.Collapsed;
+                    if (_InfoFileRead != null)
+                    {
+                        _LinesSeens = _InfoFileRead.Values.First();
+                        NuevosDialogs.ItemsSource = _NewLinesSeens;
+                        OriginalDialogs.ItemsSource = _LinesSeens;
+                        DataDialogNew();
+                        ProgressBar.Visibility = Visibility.Collapsed;
+                    }
                 }
                 else
                 {
                     _InfoFileRead = await _ActionFiles.LeerDialogos();
-                    _LinesSeens = _InfoFileRead.Values.First();
-                    OriginalDialogs.ItemsSource = _LinesSeens;
-                    ProgressBar.Visibility = Visibility.Collapsed;
+
+                    if (_InfoFileRead != null)
+                    {
+                        _LinesSeens = _InfoFileRead.Values.First();
+                        OriginalDialogs.ItemsSource = _LinesSeens;
+                        ProgressBar.Visibility = Visibility.Collapsed;
+                    }
                 }
 
             });
@@ -125,7 +132,7 @@ namespace SeenExtractor
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show("Error", e.Message, MessageBoxButton.CancelTryContinue, MessageBoxImage.Error);
+                        MessageBox.Show(e.Message, "Error", MessageBoxButton.CancelTryContinue, MessageBoxImage.Error);
                     }
 
 
@@ -148,9 +155,9 @@ namespace SeenExtractor
                 var response = _LinesSeens != null ? await _ActionFiles.ExportarDialogos(_LinesSeens) : await _ActionFiles.ExportarDialogos(_NewLinesSeens);
                 ProgressBar.Visibility = Visibility.Collapsed;
                 if (response.TryGetValue(true, out string? value))
-                    MessageBox.Show("Guardado", value, MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show(value, "Guardado", MessageBoxButton.OK, MessageBoxImage.Information);
                 else
-                    MessageBox.Show("Guardado", response[false], MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(response[false], "Guardado", MessageBoxButton.OK, MessageBoxImage.Error);
 
             });
         }
@@ -194,9 +201,9 @@ namespace SeenExtractor
             await _ActionFiles.Guardar_Mezclar_Dialogos(_LinesSeens, _NewLinesSeens, _InfoFileRead.Keys.First());
             var response = await _ActionFiles.ExportarDialogos(_NewLinesSeens, _LinesSeens);
             if (response.TryGetValue(true, out string? value))
-                MessageBox.Show("Guardado", value, MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(value, "Guardado", MessageBoxButton.OK, MessageBoxImage.Information);
             else
-                MessageBox.Show("Guardado", response[false], MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(response[false], "Guardado", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private async void SuistituirCaracteres_Click(object sender, RoutedEventArgs e)
@@ -287,7 +294,7 @@ namespace SeenExtractor
             {
                 e.CanExecute = true;
             }
-            else { e.CanExecute = false; MessageBox.Show("Busqueda", "No hay mas coincidencias", MessageBoxButton.OK, MessageBoxImage.Information); }
+            else { e.CanExecute = false; MessageBox.Show("No hay mas coincidencias", "Busqueda", MessageBoxButton.OK, MessageBoxImage.Information); }
         }
 
         public void BeforeDialog(object sender, ExecutedRoutedEventArgs e)
@@ -307,7 +314,7 @@ namespace SeenExtractor
             {
                 e.CanExecute = true;
             }
-            else { e.CanExecute = false; MessageBox.Show("Busqueda", "No hay mas coincidencias", MessageBoxButton.OK, MessageBoxImage.Information); }
+            else { e.CanExecute = false; MessageBox.Show("No hay mas coincidencias", "Busqueda", MessageBoxButton.OK, MessageBoxImage.Information); }
             ;
         }
 
@@ -334,7 +341,7 @@ namespace SeenExtractor
 
         private void CleanTranslate_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (MessageBox.Show("Limpiar", "¿Quiere limpiar la traduccion?", MessageBoxButton.YesNoCancel, MessageBoxImage.Information, MessageBoxResult.Ignore, MessageBoxOptions.ServiceNotification) == MessageBoxResult.Yes)
+            if (MessageBox.Show("¿Quiere limpiar la traduccion?", "Limpiar", MessageBoxButton.YesNoCancel, MessageBoxImage.Information, MessageBoxResult.Ignore, MessageBoxOptions.ServiceNotification) == MessageBoxResult.Yes)
             {
                 _NewLinesSeens = null;
             }

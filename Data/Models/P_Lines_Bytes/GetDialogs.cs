@@ -1,4 +1,4 @@
-﻿using SeenExtractor.Data.Characters;
+﻿using static SeenExtractor.Data.Characters.Get_Characters;
 using SeenExtractor.Data.Models.Extenciones.ChangeEncoding.Strings;
 using SeenExtractor.Data.Models.Lectura;
 using SeenExtractor.Data.Models.RegexConfig;
@@ -7,7 +7,7 @@ namespace SeenExtractor.Data.Models.P_Lines_Bytes
 {
     internal static class GetDialogs
     {
-        private static readonly Dictionary<string, string> GetCharacteres = Get_Characters.GetCharacteres();
+        //private static readonly Dictionary<string, string> Characteres = GetCharacteres;
         public static Dialogos_Conjuntos? Conjuntos = new();
 
         private static void CheckDialogoConjunto(ref int NumLine, out List<LinesSeen> lines)
