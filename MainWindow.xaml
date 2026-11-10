@@ -120,19 +120,19 @@
 
             <ToolBarTray Background="Transparent" Grid.Row="1">
                 <ToolBar Band="1" BandIndex="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <Button Click="Button_Click" >Convertir a CP932</Button>
+                    <!--<Button Click="Button_Click" >Convertir a CP932</Button>-->
                     <Separator/>
                     <Button Height="auto" Command="ApplicationCommands.Open">
                         <svgc:SvgViewbox Source="/Data/images/Icons/Home.svg"/>
                     </Button>
                     <Button Height="auto" Command="ApplicationCommands.New" >Abrir Traducción</Button>
                     <Button Height="auto" Command="{x:Static local:MainWindowHelpers.Lectura_Masiva}" >Abrir Carpeta</Button>
-                    <Button Height="auto" Command="{x:Static local:MainWindowHelpers.Open_Clean_Trans}" ToolBar.OverflowMode="Always" >Abrir Traducción L</Button>
+                    <!--<Button Height="auto" Command="{x:Static local:MainWindowHelpers.Open_Clean_Trans}" ToolBar.OverflowMode="Always" >Abrir Traducción L</Button>-->
                     <Separator/>
                     <Button Height="auto" Command="{x:Static local:MainWindowHelpers.Export}" >Extraer Dialogos</Button>
-                    <Button Height="auto" Click="SuistituirCaracteres_Click" >Sustituir Acentos, Caracter especial</Button>
+                    <!--<Button Height="auto" Click="SuistituirCaracteres_Click" >Sustituir Acentos, Caracter especial</Button>-->
                     <Button Height="auto" Command="ApplicationCommands.Save" >Guardar/Mezclar</Button>
-                    <Button Height="auto" Command="ApplicationCommands.Find" >Buscar</Button>
+                    <!--<Button Height="auto" Command="ApplicationCommands.Find" >Buscar</Button>-->
                 </ToolBar>
             </ToolBarTray>
 
